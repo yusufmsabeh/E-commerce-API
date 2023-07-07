@@ -4,7 +4,7 @@ eCommerce API
 
 ## 📊 Database Schema
 
-![img.png](img.png)
+[schema](https://lucid.app/lucidchart/f5b923ed-df74-498e-bedb-61a0d2f8de4f/edit?viewport_loc=-104%2C-491%2C1837%2C884%2C0_0&invitationId=inv_d3cb9fb4-1cf3-4c3c-8997-86dcd87f95e3)
 
 ## 📎 API Documentation
 
