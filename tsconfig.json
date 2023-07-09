@@ -6,7 +6,8 @@
     "outDir": "dist",
     "strict": true,
     "esModuleInterop": true,
-    "useUnknownInCatchVariables": false
+    "useUnknownInCatchVariables": false,
+    "resolveJsonModule": true
   },
   "exclude": [
     "node_modules"
