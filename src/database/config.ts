@@ -1,13 +1,13 @@
 import { Sequelize } from "sequelize-typescript";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const dbConfig = require("../../config/config.json")["development"];
+import { Dialect } from "sequelize";
+import { development } from "../../config/config.json";
 
 const connection = new Sequelize({
-  dialect: dbConfig.dialect,
-  database: dbConfig.database,
-  host: dbConfig.host,
-  password: dbConfig.password,
-  username: dbConfig.username,
+  dialect: development.dialect as Dialect,
+  database: development.database,
+  host: development.host,
+  password: development.password,
+  username: development.username,
   logging: console.log,
 });
 export default connection;
