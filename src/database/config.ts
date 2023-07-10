@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import { Dialect } from "sequelize";
 import { development } from "../../config/config.json";
-import { Test } from "../models/test";
+import { Test } from "../models/Test";
 
 const connection = new Sequelize({
   dialect: development.dialect as Dialect,
