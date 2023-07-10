@@ -9,8 +9,10 @@ app.use("/test", testRouter);
 
 connection.authenticate().then(
   () => {
-    app.listen(PORT, "localhost", () => {
-      console.log("server is listening on port ", PORT);
+    connection.sync().then(() => {
+      app.listen(PORT, "localhost", () => {
+        console.log("server is listening on port ", PORT);
+      });
     });
   },
   (error) => {

@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize-typescript";
 import { Dialect } from "sequelize";
 import { development } from "../../config/config.json";
+import { Test } from "../models/test";
 
 const connection = new Sequelize({
   dialect: development.dialect as Dialect,
@@ -9,5 +10,6 @@ const connection = new Sequelize({
   password: development.password,
   username: development.username,
   logging: console.log,
+  models: [Test],
 });
 export default connection;
