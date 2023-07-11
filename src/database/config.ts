@@ -2,6 +2,18 @@ import { Sequelize } from "sequelize-typescript";
 import { Dialect } from "sequelize";
 import { development } from "../../config/config.json";
 import { Test } from "../models/Test";
+import { User } from "../models/User";
+import { Address } from "../models/Address";
+import { Cart } from "../models/Cart";
+import { Product } from "../models/Product";
+import { CartProduct } from "../models/Cart-Product";
+import { ProductImages } from "../models/Product-Images";
+import { Favourites } from "../models/Favourites";
+import { Order } from "../models/Order";
+import { Variant } from "../models/Variant";
+import { ProductVariant } from "../models/Product-Variant";
+import { Category } from "../models/Category";
+import { Brand } from "../models/Brand";
 
 const connection = new Sequelize({
   dialect: development.dialect as Dialect,
@@ -10,6 +22,20 @@ const connection = new Sequelize({
   password: development.password,
   username: development.username,
   logging: console.log,
-  models: [Test],
+  models: [
+    Test,
+    User,
+    Address,
+    Cart,
+    Product,
+    CartProduct,
+    ProductImages,
+    Favourites,
+    Order,
+    Variant,
+    ProductVariant,
+    Brand,
+    Category,
+  ],
 });
 export default connection;
