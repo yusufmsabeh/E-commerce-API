@@ -9,7 +9,7 @@ app.use("/test", testRouter);
 
 connection.authenticate().then(
   () => {
-    connection.sync({force:true}).then(() => {
+    connection.sync({ force: true }).then(() => {
       app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
