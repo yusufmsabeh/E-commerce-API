@@ -9,7 +9,7 @@ export const getProducts = async (
 ) => {
   try {
     const { q = "", page = 0 } = request.query;
-    const startingOffset = parseInt(page as string) * 20 + 1;
+    const startingOffset = parseInt(page as string) * 20 ;
     let whereObject = {};
     if (q == "new-arrivals") {
       const threeMonthsAgo = new Date();
