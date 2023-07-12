@@ -39,6 +39,11 @@ export class Product extends Model {
     allowNull: false,
   })
     price!: number;
+  @Column({
+    type: DataType.DOUBLE,
+    allowNull: false
+  })
+    rate!: number;
 
   @BelongsToMany(() => Cart, () => CartProduct)
     carts!: Cart[];
