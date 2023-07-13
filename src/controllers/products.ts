@@ -19,15 +19,18 @@ export const getProducts = async (
         startingOffset,
         parseInt(category as string)
       );
+    } else if (type == "new-arrivals") {
+      products = await getNewArrivals(startingOffset);
+    } else if (type == "handpicked") {
+      products = await getHandPicked(startingOffset);
     } else {
-      if (type == "new-arrivals") {
-        products = await getNewArrivals(startingOffset);
-      } else if (type == "handpicked") {
-        products = await getHandPicked(startingOffset);
-      } else {
-        products = await Product.findAll({ offset: startingOffset, limit: 20 ,include:[ProductImages,Brand,Category]});
-      }
+      products = await Product.findAll({
+        offset: startingOffset,
+        limit: 20,
+        include: [ProductImages, Brand, Category],
+      });
     }
+
     return response.status(200).json({
       error: false,
       status: 200,
