@@ -14,13 +14,15 @@ import { Variant } from "../models/Variant";
 import { ProductVariant } from "../models/Product-Variant";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
-
+import dotenv from "dotenv";
+dotenv.configDotenv();
 const connection = new Sequelize({
-  dialect: development.dialect as Dialect,
-  database: development.database,
-  host: development.host,
-  password: development.password,
-  username: development.username,
+  dialect: "mysql",
+  port: parseInt( process.env.MYSQL_ADDON_PORT as string),
+  database: process.env.MYSQL_ADDON_DB,
+  host: process.env.MYSQL_ADDON_HOST,
+  password: process.env.MYSQL_ADDON_PASSWORD,
+  username: process.env.MYSQL_ADDON_USER,
   logging: console.log,
   models: [
     Test,
