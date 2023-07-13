@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+import { NextFunction, Request, response, Response } from "express";
 import { Product } from "../models/Product";
 import { Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
+import { Console } from "inspector";
 
 export const getProducts = async (
   request: Request,
@@ -11,13 +12,20 @@ export const getProducts = async (
   next: NextFunction
 ) => {
   try {
-    const { type = "", page = 0, category } = request.query;
+    const { type = "", page = 0, category, q } = request.query;
     const startingOffset = parseInt(page as string) * 20;
     let products: Product[] = [];
     if (category) {
       products = await getCategoryProducts(
         startingOffset,
         parseInt(category as string)
+      );
+    } else if (q) {
+      console.log(q);
+      return await getSearchProductsAndBrands(
+        response,
+        q as string,
+        startingOffset
       );
     } else if (type == "new-arrivals") {
       products = await getNewArrivals(startingOffset);
@@ -88,4 +96,38 @@ const getCategoryProducts = async (
       limit: 20,
     })) ?? [];
   return products;
+};
+
+const getSearchProductsAndBrands = async (
+  response: Response,
+  q: string,
+  startingOffset: number
+) => {
+  const products: Product[] = await Product.findAll({
+    include: ProductImages,
+    offset: startingOffset,
+    limit: 20,
+    where: {
+      title: {
+        [Op.like]: `%${q}%`,
+      },
+    },
+  });
+  const brands: Brand[] = await Brand.findAll({
+    offset: startingOffset,
+    limit: 20,
+    where: {
+      title: {
+        [Op.like]: `%${q}%`,
+      },
+    },
+  });
+  response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      products: products,
+      brands: brands,
+    },
+  });
 };
