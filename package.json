@@ -4,8 +4,8 @@
   "description": "Ecommerce",
   "main": "index.ts",
   "scripts": {
-    "build": "yarn install && tsc",
-    "start": "node build",
+    "build": "npm install && tsc",
+    "start": "npm build",
     "dev": "nodemon --exec ts-node --files src/index.ts",
     "prepare": "husky install"
   },
