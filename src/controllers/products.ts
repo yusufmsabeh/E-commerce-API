@@ -4,7 +4,6 @@ import { Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
-import { Console } from "inspector";
 
 export const getProducts = async (
   request: Request,
@@ -21,7 +20,6 @@ export const getProducts = async (
         parseInt(category as string)
       );
     } else if (q) {
-      console.log(q);
       return await getSearchProductsAndBrands(
         response,
         q as string,
