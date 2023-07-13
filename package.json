@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "ts-node --files src/index.ts",
+    "build": "npm install && npm start",
     "dev": "nodemon --exec ts-node --files src/index.ts",
     "prepare": "husky install"
   },
