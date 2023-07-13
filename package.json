@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "start:dev": "nodemon src/index.ts",
-    "build": "npm install && tsc",
-    "start": "node build"
+    "build": "npm install && tsc && node dist/index.js",
+    "start": "npm run build"
   },
   "repository": {
     "type": "git",
