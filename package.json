@@ -4,7 +4,7 @@
   "description": "Ecommerce",
   "main": "index.ts",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "npm i ts-node && npm run dev",
     "build": "nodemon src/index.ts",
     "dev": "nodemon --exec ts-node --files src/index.ts",
     "prepare": "husky install"
