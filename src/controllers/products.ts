@@ -1,6 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Product } from "../models/Product";
 import { Op } from "sequelize";
+import { ProductImages } from "../models/Product-Images";
+import {Category} from "../models/Category";
+import {Brand} from "../models/Brand";
 
 export const getProducts = async (
   request: Request,
@@ -9,7 +12,7 @@ export const getProducts = async (
 ) => {
   try {
     const { q = "", page = 0 } = request.query;
-    const startingOffset = parseInt(page as string) * 20 ;
+    const startingOffset = parseInt(page as string) * 20;
     let whereObject = {};
     if (q == "new-arrivals") {
       const threeMonthsAgo = new Date();
@@ -31,6 +34,7 @@ export const getProducts = async (
       };
     }
     const products = await Product.findAll({
+      include: [ProductImages,Brand,Category],
       offset: startingOffset,
       limit: 20,
       where: whereObject,
@@ -41,6 +45,7 @@ export const getProducts = async (
       data: {
         products: products,
       },
+
     });
   } catch (e) {
     next(e);
