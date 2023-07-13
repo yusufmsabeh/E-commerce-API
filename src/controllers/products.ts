@@ -11,7 +11,7 @@ export const getProducts = async (
   next: NextFunction
 ) => {
   try {
-    const { q = "", page = 0, category } = request.query;
+    const { type = "", page = 0, category } = request.query;
     const startingOffset = parseInt(page as string) * 20;
     let products: Product[] = [];
     if (category) {
@@ -20,9 +20,9 @@ export const getProducts = async (
         parseInt(category as string)
       );
     } else {
-      if (q == "new-arrivals") {
+      if (type == "new-arrivals") {
         products = await getNewArrivals(startingOffset);
-      } else if (q == "handpicked") {
+      } else if (type == "handpicked") {
         products = await getHandPicked(startingOffset);
       } else {
         products = await Product.findAll({ offset: startingOffset, limit: 20 ,include:[ProductImages,Brand,Category]});
