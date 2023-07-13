@@ -1,6 +1,4 @@
 import { Sequelize } from "sequelize-typescript";
-import { Dialect } from "sequelize";
-import { development } from "../../config/config.json";
 import { Test } from "../models/Test";
 import { User } from "../models/User";
 import { Address } from "../models/Address";
