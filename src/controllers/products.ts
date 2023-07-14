@@ -1,4 +1,10 @@
-import { NextFunction, Request, response, Response } from "express";
+import {
+  NextFunction,
+  Request,
+  RequestHandler,
+  response,
+  Response,
+} from "express";
 import { Product } from "../models/Product";
 import { Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
@@ -11,31 +17,14 @@ export const getProducts = async (
   next: NextFunction
 ) => {
   try {
-    const { type = "", page = 0, category, q } = request.query;
+    const { page = 0 } = request.query;
     const startingOffset = parseInt(page as string) * 20;
-    let products: Product[] = [];
-    if (category) {
-      products = await getCategoryProducts(
-        startingOffset,
-        parseInt(category as string)
-      );
-    } else if (q) {
-      return await getSearchProductsAndBrands(
-        response,
-        q as string,
-        startingOffset
-      );
-    } else if (type == "new-arrivals") {
-      products = await getNewArrivals(startingOffset);
-    } else if (type == "handpicked") {
-      products = await getHandPicked(startingOffset);
-    } else {
-      products = await Product.findAll({
-        offset: startingOffset,
-        limit: 20,
-        include: [ProductImages, Brand, Category],
-      });
-    }
+
+    const products = await Product.findAll({
+      offset: startingOffset,
+      limit: 20,
+      include: [ProductImages, Brand, Category],
+    });
 
     return response.status(200).json({
       error: false,
@@ -49,58 +38,39 @@ export const getProducts = async (
   }
 };
 
-const getNewArrivals = async (startingOffset: number): Promise<Product[]> => {
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-  const products = await Product.findAll({
-    include: [ProductImages, Brand, Category],
-    offset: startingOffset,
-    limit: 20,
-    where: {
-      createdAt: {
-        [Op.gte]: threeMonthsAgo,
-      },
-    },
-  });
-  return products;
-};
-
-const getHandPicked = async (startingOffset: number): Promise<Product[]> => {
-  const products = await Product.findAll({
-    include: [ProductImages, Brand, Category],
-    offset: startingOffset,
-    limit: 20,
-    where: {
-      rate: {
-        [Op.gte]: 4.5,
-      },
-      price: {
-        [Op.lte]: 100,
-      },
-    },
-  });
-  return products;
-};
-
-const getCategoryProducts = async (
-  startingOffset: number,
-  categoryId: number
-): Promise<Product[]> => {
-  const category = await Category.findByPk(categoryId);
+export const getCategoryProducts: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const { category: categoryId, page = 0 } = request.query;
+  if (!categoryId) return next();
+  const startingOffset = parseInt(page as string) * 20;
+  const category = await Category.findByPk(parseInt(categoryId as string));
   const products =
     (await category?.$get("products", {
       include: [ProductImages, Brand, Category],
       offset: startingOffset,
       limit: 20,
     })) ?? [];
-  return products;
+
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      products: products,
+    },
+  });
 };
 
-const getSearchProductsAndBrands = async (
+export const getSearchProductsAndBrands: RequestHandler = async (
+  request: Request,
   response: Response,
-  q: string,
-  startingOffset: number
+  next: NextFunction
 ) => {
+  const { q, page = 0 } = request.query;
+  if (!q) return next();
+  const startingOffset = parseInt(page as string) * 20;
   const products: Product[] = await Product.findAll({
     include: ProductImages,
     offset: startingOffset,
@@ -126,6 +96,67 @@ const getSearchProductsAndBrands = async (
     data: {
       products: products,
       brands: brands,
+    },
+  });
+};
+
+export const getNewArrivals: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const { type, page } = request.query;
+  if (!(type == "new-arrivals")) return next();
+  const startingOffset = parseInt(page as string) * 20;
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+  const products = await Product.findAll({
+    include: [ProductImages, Brand, Category],
+    offset: startingOffset,
+    limit: 20,
+    where: {
+      createdAt: {
+        [Op.gte]: threeMonthsAgo,
+      },
+    },
+  });
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      products: products,
+    },
+  });
+};
+
+export const getHandPicked: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  const { type, page } = request.query;
+  if (!(type == "handpicked")) return next();
+  const startingOffset = parseInt(page as string) * 20;
+  const threeMonthsAgo = new Date();
+  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+  const products = await Product.findAll({
+    include: [ProductImages, Brand, Category],
+    offset: startingOffset,
+    limit: 20,
+    where: {
+      rate: {
+        [Op.gte]: 4.5,
+      },
+      price: {
+        [Op.lte]: 100,
+      },
+    },
+  });
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      products: products,
     },
   });
 };
