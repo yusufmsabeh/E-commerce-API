@@ -15,6 +15,7 @@ connection.authenticate().then(
       app.listen(PORT,() => {
         console.log("server is listening on port ", PORT);
       });
+      return true;
     });
   },
   (error) => {
