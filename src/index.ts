@@ -12,7 +12,9 @@ app.use("/categories", categoriesRouter);
 connection.authenticate().then(
   () => {
     connection.sync().then(() => {
-      return app;
+      app.listen(PORT, () => {
+        console.log("server is listening on port ", PORT);
+      });
     });
   },
   (error) => {
