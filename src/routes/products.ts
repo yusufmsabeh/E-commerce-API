@@ -1,5 +1,18 @@
 import { Router } from "express";
-import { getProducts } from "../controllers/products";
+import {
+  getCategoryProducts,
+  getHandPicked,
+  getNewArrivals,
+  getProducts,
+  getSearchProductsAndBrands,
+} from "../controllers/products";
 
 export const router = Router();
-router.get("/", getProducts);
+router.get(
+  "/",
+  getCategoryProducts,
+  getSearchProductsAndBrands,
+  getNewArrivals,
+  getHandPicked,
+  getProducts
+);
