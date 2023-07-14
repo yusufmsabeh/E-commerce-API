@@ -3,6 +3,7 @@ import {
   getCategoryProducts,
   getHandPicked,
   getNewArrivals,
+  getProductById,
   getProducts,
   getSearchProductsAndBrands,
 } from "../controllers/products";
@@ -16,3 +17,4 @@ router.get(
   getHandPicked,
   getProducts
 );
+router.get("/:id", getProductById);
