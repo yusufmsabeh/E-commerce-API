@@ -73,7 +73,7 @@ module.exports = {
         brand_id: brandsId,
         category_id: categoriesId,
         rate: 4.5,
-        createdAt: new Date(),
+        createdAt: new Date(2022,7,14,10,0),
         updatedAt: new Date(),
       },
       {
@@ -84,7 +84,7 @@ module.exports = {
         brand_id: brandsId,
         category_id: categoriesId,
         rate: 4.5,
-        createdAt: new Date(),
+        createdAt: new Date(2022,7,14,10,0),
         updatedAt: new Date(),
       },
       {
@@ -95,7 +95,7 @@ module.exports = {
         brand_id: brandsId,
         category_id: categoriesId,
         rate: 4.7,
-        createdAt: new Date(),
+        createdAt:new Date(2022,7,14,10,0),
         updatedAt: new Date(),
       },
       {
@@ -105,7 +105,7 @@ module.exports = {
         brand_id: brandsId,
         category_id: categoriesId,
         rate: 4.7,
-        createdAt: new Date(),
+        createdAt: new Date(2022,7,14,10,0),
         updatedAt: new Date(),
       },
       {
@@ -459,7 +459,7 @@ module.exports = {
         brand_id: brandsId + 4,
         category_id: categoriesId + 7,
         rate: 3,
-        createdAt: new Date(),
+        createdAt: new Date(2022,7,14,10,0),
         updatedAt: new Date(),
       },
     ]);
