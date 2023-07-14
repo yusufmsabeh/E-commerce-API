@@ -11,7 +11,7 @@ app.use("/categories", categoriesRouter);
 
 connection.authenticate().then(
   () => {
-    connection.sync().then(() => {
+    connection.sync().then(() =>  {
       app.listen(PORT,() => {
         console.log("server is listening on port ", PORT);
       });
