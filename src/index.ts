@@ -12,7 +12,7 @@ app.use("/categories", categoriesRouter);
 connection.authenticate().then(
   () => {
     connection.sync().then(() => {
-      app.listen(PORT, () => {
+      app.listen(PORT, process.env.CYCLIC_URL??"localhost",() => {
         console.log("server is listening on port ", PORT);
       });
     });
