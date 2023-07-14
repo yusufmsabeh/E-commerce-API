@@ -11,7 +11,7 @@ const PORT = parseInt(process.env.PORT ?? "8080");
 app.use("/test", testRouter);
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
-app.use("brands", brandsRouter);
+app.use("/brands", brandsRouter);
 connection.authenticate().then(
   () => {
     connection.sync().then(() => {
