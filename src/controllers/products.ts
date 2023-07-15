@@ -1,10 +1,4 @@
-import {
-  NextFunction,
-  Request,
-  RequestHandler,
-  response,
-  Response,
-} from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Product } from "../models/Product";
 import { Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
@@ -75,4 +69,26 @@ export const getSearchProductsAndBrands: RequestHandler = async (
       brands: brands,
     },
   });
+};
+export const getProductById: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = request.params;
+    const product = await Product.findByPk(id,{
+      include:[ProductImages,Brand,Category]
+    });
+    if (!product) return next(new Error("There is no product with this ID"));
+    return response.status(200).json({
+      error: false,
+      status: 200,
+      data: {
+        product: product,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
