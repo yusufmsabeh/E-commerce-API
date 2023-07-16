@@ -50,6 +50,19 @@ export class Product extends Model {
     allowNull:false
   })
     isLimited!:boolean;
+  @Column({
+    type:DataType.DOUBLE,
+    allowNull:false,
+    defaultValue:0
+  })
+    discount!:number;
+
+  @Column({
+    type:DataType.STRING,
+    allowNull:false,
+    defaultValue:"percentage"
+  })
+    discount_type!:string;
   @BelongsToMany(() => Cart, () => CartProduct)
     carts!: Cart[];
   @BelongsToMany(() => User, () => Favourites)

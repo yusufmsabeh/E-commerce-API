@@ -14,7 +14,7 @@ app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
 connection.authenticate().then(
   () => {
-    connection.sync().then(() => {
+    connection.sync({force:true}).then(() => {
       app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
