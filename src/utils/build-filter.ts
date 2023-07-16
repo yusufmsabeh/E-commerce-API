@@ -14,6 +14,9 @@ export const buildFilter = (request: Request) => {
     where.rate = { [Op.gte]: 4.5 };
     where.price = { [Op.lte]: 100 };
     break;
+  case "discount":
+    where.discount = { [Op.gte]: 15 };
+    where.discount_type = "percentage";
   }
   if (category) {
     where.category_id = { [Op.in]: String(category).split(",") };
