@@ -44,7 +44,12 @@ export class Product extends Model {
     allowNull: false
   })
     rate!: number;
-
+  @Column({
+    type:DataType.BOOLEAN,
+    defaultValue:false,
+    allowNull:false
+  })
+    isLimited!:boolean;
   @BelongsToMany(() => Cart, () => CartProduct)
     carts!: Cart[];
   @BelongsToMany(() => User, () => Favourites)
