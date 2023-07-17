@@ -6,7 +6,7 @@ import { router as brandsRouter } from "./routes/brands";
 import { router as productsRouter } from "./routes/products";
 import { router as authRouter } from "./routes/auth";
 import connection from "./database/config";
-import bodyParser from "body-parser";
+import { errorHandler } from "./middlewares/error-handler";
 import multer from "multer";
 import passport from "passport";
 import {passportConfig} from "./utils/passport-config";
@@ -22,6 +22,15 @@ app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
+app.use(errorHandler);
+process.on("unhandledRejection", (reason: Error | any) => {
+  console.log("unhandled Rejection: ", reason.message | reason);
+  throw new Error(reason.message || reason);
+});
+process.on("uncaughtException", (error:Error) => {
+  console.log("uncaught Exception", error.message);
+  throw error;
+});
 connection.authenticate().then(
   () => {
     connection.sync().then(() => {
