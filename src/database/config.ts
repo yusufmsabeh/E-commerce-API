@@ -37,5 +37,6 @@ const connection = new Sequelize({
     Brand,
     Category,
   ],
+
 });
 export default connection;
