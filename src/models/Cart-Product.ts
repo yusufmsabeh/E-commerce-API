@@ -30,6 +30,7 @@ export class CartProduct extends Model {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
+    defaultValue:1
   })
     quantity!: number;
 }
