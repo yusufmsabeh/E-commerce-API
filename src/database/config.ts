@@ -15,27 +15,33 @@ import { ProductVariant } from "../models/Product-Variant";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
 
-const connection = new Sequelize({
-  dialect: development.dialect as Dialect,
-  database: development.database,
-  host: development.host,
-  password: development.password,
-  username: development.username,
-  logging: console.log,
-  models: [
-    Test,
-    User,
-    Address,
-    Cart,
-    Product,
-    CartProduct,
-    ProductImages,
-    Favourites,
-    Order,
-    Variant,
-    ProductVariant,
-    Brand,
-    Category,
-  ],
-});
-export default connection;
+let connection:Sequelize ;
+const getConnection =()=>{
+  if (!connection){
+    connection= new Sequelize({
+      dialect: development.dialect as Dialect,
+      database: development.database,
+      host: development.host,
+      password: development.password,
+      username: development.username,
+      logging: console.log,
+      models: [
+        Test,
+        User,
+        Address,
+        Cart,
+        Product,
+        CartProduct,
+        ProductImages,
+        Favourites,
+        Order,
+        Variant,
+        ProductVariant,
+        Brand,
+        Category,
+      ],
+    });
+  }
+  return connection;
+};
+export default getConnection;
