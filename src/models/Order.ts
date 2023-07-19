@@ -23,6 +23,11 @@ export class Order extends Model {
     allowNull: false,
   })
     status!: number;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+    transaction_id!: string;
   @BelongsTo(() => User, "user_id")
     user!: User;
   @BelongsTo(() => Cart, "cart_id")
