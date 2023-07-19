@@ -10,7 +10,7 @@ export const postCart: RequestHandler = async (
   next: NextFunction
 ) => {
   const user: User = request.user as User;
-  const cart: Cart = await user.getCart(user);
+  const cart: Cart = await user.getCart();
   const productId = request.params.id;
   const product = await Product.findByPk(productId);
   const hasProduct = await cart.$has("product", product!);

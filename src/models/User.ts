@@ -49,18 +49,10 @@ export class User extends Model {
   })
     password!: string;
 
-  public async getCart(user: User): Promise<Cart> {
-    let cart: Cart | null = (
-      await user.$get("carts", {
-        where: {
-          status: 0,
-        },
-      })
-    )[0];
-
-    if (!cart) {
-      cart = await user.$create<Cart>("cart", {});
-    }
+  public async getCart(): Promise<Cart> {
+    const [cart] = await Cart.findOrCreate<Cart>({
+      where: { status: 0, user_id: this.id },
+    });
     return cart;
   }
 
