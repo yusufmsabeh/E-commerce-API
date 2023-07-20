@@ -6,16 +6,12 @@ export const getBrands = async (
   response: Response,
   next: NextFunction
 ) => {
-  try {
-    const brands: Brand[] = await Brand.findAll();
-    return response.status(200).json({
-      error: false,
-      status: 200,
-      data: {
-        brands: brands,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
+  const brands: Brand[] = await Brand.findAll();
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      brands: brands,
+    },
+  });
 };
