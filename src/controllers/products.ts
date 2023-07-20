@@ -5,6 +5,7 @@ import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
 import { buildFilter } from "../utils/build-filter";
+import {GeneralError} from "../errors/general-error";
 
 export const getProducts = async (
   request: Request,
@@ -78,7 +79,7 @@ export const getProductById: RequestHandler = async (
   const product = await Product.findByPk(id,{
     include:[ProductImages,Brand,Category]
   });
-  if (!product) return next(new Error("There is no product with this ID"));
+  if (!product) return next(new GeneralError("There is no product with this ID",404));
   return response.status(200).json({
     error: false,
     status: 200,
