@@ -15,6 +15,9 @@ export const buildFilter = (request: Request) => {
     where.rate = { [Op.gte]: 4.5 };
     where.price = { [Op.lte]: 100 };
     break;
+  case "popular":
+    where.rate = { [Op.gte]: 4.5 };
+    break;
   case "limited-edition":
     where.isLimited = true;
     break;
