@@ -23,14 +23,14 @@ app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
 app.use(errorHandler);
-process.on("unhandledRejection", (reason: Error | any) => {
-  console.log("unhandled Rejection: ", reason.message | reason);
-  throw new Error(reason.message || reason);
-});
-process.on("uncaughtException", (error:Error) => {
-  console.log("uncaught Exception", error.message);
-  throw error;
-});
+// process.on("unhandledRejection", (reason: Error | any) => {
+//   console.log("unhandled Rejection: ", reason.message | reason);
+//   throw new Error(reason.message || reason);
+// });
+// process.on("uncaughtException", (error:Error) => {
+//   console.log("uncaught Exception", error.message);
+//   throw error;
+// });
 connection.authenticate().then(
   () => {
     connection.sync({alter:true}).then(() => {
