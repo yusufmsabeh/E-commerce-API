@@ -11,27 +11,25 @@ export const getProducts = async (
   response: Response,
   next: NextFunction
 ) => {
-  try {
-    const { page = 0 } = request.query;
-    const startingOffset = parseInt(page as string) * 20;
-    const where = buildFilter(request);
-    const products = await Product.findAll({
-      offset: startingOffset,
-      limit: 20,
-      include: [ProductImages, Brand, Category],
-      where: where,
-    });
 
-    return response.status(200).json({
-      error: false,
-      status: 200,
-      data: {
-        products: products,
-      },
-    });
-  } catch (e) {
-    next(e);
-  }
+  const { page = 0 } = request.query;
+  const startingOffset = parseInt(page as string) * 20;
+  const where = buildFilter(request);
+  const products = await Product.findAll({
+    offset: startingOffset,
+    limit: 20,
+    include: [ProductImages, Brand, Category],
+    where: where,
+  });
+
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      products: products,
+    },
+  });
+
 };
 
 export const getSearchProductsAndBrands: RequestHandler = async (
@@ -75,20 +73,18 @@ export const getProductById: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-  try {
-    const { id } = request.params;
-    const product = await Product.findByPk(id,{
-      include:[ProductImages,Brand,Category]
-    });
-    if (!product) return next(new Error("There is no product with this ID"));
-    return response.status(200).json({
-      error: false,
-      status: 200,
-      data: {
-        product: product,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
+
+  const { id } = request.params;
+  const product = await Product.findByPk(id,{
+    include:[ProductImages,Brand,Category]
+  });
+  if (!product) return next(new Error("There is no product with this ID"));
+  return response.status(200).json({
+    error: false,
+    status: 200,
+    data: {
+      product: product,
+    },
+  });
+
 };
