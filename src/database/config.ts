@@ -8,7 +8,7 @@ import { Cart } from "../models/Cart";
 import { Product } from "../models/Product";
 import { CartProduct } from "../models/Cart-Product";
 import { ProductImages } from "../models/Product-Images";
-import { Favourites } from "../models/Favourites";
+import { Favourite } from "../models/Favourites";
 import { Order } from "../models/Order";
 import { Variant } from "../models/Variant";
 import { ProductVariant } from "../models/Product-Variant";
@@ -30,7 +30,7 @@ const connection = new Sequelize({
     Product,
     CartProduct,
     ProductImages,
-    Favourites,
+    Favourite,
     Order,
     Variant,
     ProductVariant,

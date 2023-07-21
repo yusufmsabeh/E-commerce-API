@@ -5,6 +5,7 @@ import { router as categoriesRouter } from "./routes/categories";
 import { router as brandsRouter } from "./routes/brands";
 import { router as productsRouter } from "./routes/products";
 import { router as authRouter } from "./routes/auth";
+import {router as favouritesRouter} from "./routes/favourites";
 import connection from "./database/config";
 import { errorHandler } from "./middlewares/error-handler";
 import multer from "multer";
@@ -22,6 +23,7 @@ app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
+app.use("/favourites", favouritesRouter);
 app.use(errorHandler);
 process.on("unhandledRejection", (reason: Error | any) => {
   console.log("unhandled Rejection: ", reason.message | reason);
