@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import { router as testRouter } from "./routes/test";
+import { router, router as testRouter } from "./routes/test";
 import { router as categoriesRouter } from "./routes/categories";
 import { router as brandsRouter } from "./routes/brands";
 import { router as productsRouter } from "./routes/products";
@@ -17,6 +17,9 @@ app.use(passport.initialize());
 passportConfig();
 const upload  = multer();
 app.use(upload.any());
+app.get("/reqbin-verify.txt",(req,res,next)=>{
+  res.status(200).send("");
+});
 app.use("/test", testRouter);
 app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
