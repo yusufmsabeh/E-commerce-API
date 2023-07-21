@@ -9,7 +9,7 @@ import {
 import { Address } from "./Address";
 import { Cart } from "./Cart";
 import { Product } from "./Product";
-import { Favourites } from "./Favourites";
+import { Favourite } from "./Favourites";
 import { Order } from "./Order";
 
 @Table({
@@ -55,6 +55,6 @@ export class User extends Model {
     carts!: Cart[];
   @HasMany(() => Order, "user_id")
     orders!: Order[];
-  @HasMany(() => Favourites, "user_id")
-    favourites!: Favourites[];
+  @BelongsToMany(() => Product, () => Favourite)
+    favourites!: Product[];
 }
