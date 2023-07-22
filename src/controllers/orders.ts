@@ -6,6 +6,7 @@ import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
 import { ValidationError } from "../errors/validation";
 import { ValidationErrorItem } from "sequelize";
+import * as trace_events from "trace_events";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -52,6 +53,49 @@ export const postOrders: RequestHandler = async (
       },
     });
   } catch (e) {
+    next(e);
+  }
+};
+
+export const getOrders:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
+  try{
+    const user:User = request.user as User;
+    const orders=await user.$get("orders");
+    response.status(200).json({
+      error:false,
+      status:200,
+      data:{
+        orders:orders
+      }
+    });
+  }catch (e) {
+    next(e);
+  }
+};
+
+export const getOrderById:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
+  try{
+    const user:User = request.user as User;
+    const {id} =request.params;
+    const order:Order=(await user.$get("orders",{where:{id:id}}))[0];
+    if(!order) return response.status(422).json({
+      error:true,
+      status:422,
+      data:{
+        message: "there is no order with this ID"
+      }
+    });
+
+    const cart=    await order.$get("cart");
+    const products = await cart?.$get("products");
+    response.status(200).json({
+      error:false,
+      status:200,
+      data:{
+        products:products
+      }
+    });
+  }catch (e) {
     next(e);
   }
 };
