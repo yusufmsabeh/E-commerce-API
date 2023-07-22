@@ -33,6 +33,13 @@ export class Cart extends Model {
     allowNull: false,
   })
     tax!: number;
+  @Column({
+    type: DataType.INTEGER,
+    allowNull: false,
+    defaultValue: 0,
+  })
+    status!: number;
+
   @BelongsTo(() => User, "user_id")
     user!: User;
   @BelongsToMany(() => Product, () => CartProduct)
