@@ -10,7 +10,7 @@ import {
 import { Cart } from "./Cart";
 import { CartProduct } from "./Cart-Product";
 import { ProductImages } from "./Product-Images";
-import { Favourites } from "./Favourites";
+import { Favourite } from "./Favourites";
 import { User } from "./User";
 import { Variant } from "./Variant";
 import { ProductVariant } from "./Product-Variant";
@@ -65,7 +65,7 @@ export class Product extends Model {
     discount_type!:string;
   @BelongsToMany(() => Cart, () => CartProduct)
     carts!: Cart[];
-  @BelongsToMany(() => User, () => Favourites)
+  @BelongsToMany(() => User, () => Favourite)
     users!: User[];
   @BelongsToMany(() => Variant, () => ProductVariant)
     variants!: Variant[];
