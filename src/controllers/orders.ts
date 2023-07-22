@@ -3,6 +3,7 @@ import { User } from "../models/User";
 import { Order } from "../models/Order";
 import { Cart } from "../models/Cart";
 import { GeneralError } from "../errors/general-error";
+import {postOrdersValidator} from "../validators/post-orders-validator";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -10,6 +11,7 @@ export const postOrders: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
+    postOrdersValidator(request.body);
     const { transactionId, cartId, email } = request.body;
     const user = request.user as User;
     let order;
