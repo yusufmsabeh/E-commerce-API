@@ -1,9 +1,12 @@
 import { response, Router } from "express";
-import { postOrders } from "../controllers/orders";
+import {getOrderById, getOrders, postOrders} from "../controllers/orders";
 import passport from "passport";
 import { User } from "../models/User";
 
 export const router = Router();
+router.use(passport.authenticate("jwt", { session: false }));
+router.get("/", getOrders);
+router.get("/:id",getOrderById);
 router.use((request, response, next) => {
   passport.authenticate(
     "jwt",
@@ -17,6 +20,6 @@ router.use((request, response, next) => {
       }
       return next();
     }
-  )(request,response,next);
+  )(request, response, next);
 });
 router.post("/", postOrders);
