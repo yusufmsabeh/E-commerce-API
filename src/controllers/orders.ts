@@ -4,9 +4,7 @@ import { Order } from "../models/Order";
 import { Cart } from "../models/Cart";
 import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
-import { ValidationError } from "../errors/validation";
-import { ValidationErrorItem } from "sequelize";
-import * as trace_events from "trace_events";
+
 
 export const postOrders: RequestHandler = async (
   request: Request,
