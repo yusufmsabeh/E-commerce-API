@@ -4,7 +4,6 @@ import {
   ForeignKey,
   Model,
   Table,
-  HasOne
 } from "sequelize-typescript";
 import { Product } from "./Product";
 import { User } from "./User";
