@@ -32,3 +32,26 @@ export const postCart: RequestHandler = async (
     next(e);
   }
 };
+
+export const getCart: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = request.user as User;
+    const cart = await user.$get("carts", {
+      where: { status: 0 },
+      include: [Product],
+    });
+    response.status(200).json({
+      error: false,
+      status: 200,
+      data: {
+        cart: cart,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
