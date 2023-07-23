@@ -10,9 +10,9 @@ import { User } from "./User";
 
 @Table({
   timestamps: false,
-  tableName: "Favourites",
+  tableName: "favourites",
 })
-export class Favourites extends Model {
+export class Favourite extends Model {
   @ForeignKey(() => User)
   @Column({
     type: DataType.INTEGER,

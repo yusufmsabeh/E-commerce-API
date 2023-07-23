@@ -9,7 +9,7 @@ import {
 import { Address } from "./Address";
 import { Cart } from "./Cart";
 import { Product } from "./Product";
-import { Favourites } from "./Favourites";
+import { Favourite } from "./Favourites";
 import { Order } from "./Order";
 
 @Table({
@@ -49,12 +49,19 @@ export class User extends Model {
   })
     password!: string;
 
+  public async getCart(): Promise<Cart> {
+    const [cart] = await Cart.findOrCreate<Cart>({
+      where: { status: 0, user_id: this.id },
+    });
+    return cart;
+  }
+
   @HasMany(() => Address, "user_id")
     addresses!: Address[];
   @HasMany(() => Cart, "user_id")
     carts!: Cart[];
   @HasMany(() => Order, "user_id")
     orders!: Order[];
-  @HasMany(() => Favourites, "user_id")
-    favourites!: Favourites[];
+  @BelongsToMany(() => Product, () => Favourite)
+    favourites!: Product[];
 }

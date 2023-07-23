@@ -5,17 +5,20 @@ import { router as categoriesRouter } from "./routes/categories";
 import { router as brandsRouter } from "./routes/brands";
 import { router as productsRouter } from "./routes/products";
 import { router as authRouter } from "./routes/auth";
-import connection from "./database/config";
+import { router as favouritesRouter } from "./routes/favourites";
+import { router as ordersRouter } from "./routes/orders";
+import { router as cartsRouter } from "./routes/carts";
+import getConnection from "./database/config";
 import { errorHandler } from "./middlewares/error-handler";
 import multer from "multer";
 import passport from "passport";
-import {passportConfig} from "./utils/passport-config";
+import { passportConfig } from "./utils/passport-config";
 dotenv.config();
 const app = express();
 const PORT = parseInt(process.env.PORT ?? "3000");
 app.use(passport.initialize());
 passportConfig();
-const upload  = multer();
+const upload = multer();
 app.use(upload.any());
 app.get("/reqbin-verify.txt",(req,res,next)=>{
   res.status(200).send("");
@@ -25,19 +28,22 @@ app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
+app.use("/carts", cartsRouter);
+app.use("/favourites", favouritesRouter);
+app.use("/orders",ordersRouter);
 app.use(errorHandler);
 process.on("unhandledRejection", (reason: Error | any) => {
   console.log("unhandled Rejection: ", reason.message | reason);
   throw new Error(reason.message || reason);
 });
-process.on("uncaughtException", (error:Error) => {
+process.on("uncaughtException", (error: Error) => {
   console.log("uncaught Exception", error.message);
   throw error;
 });
-connection.authenticate().then(
+getConnection().authenticate().then(
   () => {
-    connection.sync({alter:true}).then(() => {
-      app.listen(PORT, "0.0.0.0", () => {
+    getConnection().sync().then(() => {
+      app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
     });
