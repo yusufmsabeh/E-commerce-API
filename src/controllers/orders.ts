@@ -17,7 +17,7 @@ export const postOrders: RequestHandler = async (
     const { transactionId, cartId, email } = request.body;
     const user = request.user as User;
     let order;
-    const cart = await Cart.findOne({ where: { id: cartId, status: 0 } });
+    const cart = await Cart.findOne({ where: { id: cartId, status: ORDER_STATUS.ACTIVE } });
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
     cart.status = 1;
     await cart.save();
