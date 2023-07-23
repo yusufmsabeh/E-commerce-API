@@ -49,6 +49,13 @@ export class User extends Model {
   })
     password!: string;
 
+  public async getCart(): Promise<Cart> {
+    const [cart] = await Cart.findOrCreate<Cart>({
+      where: { status: 0, user_id: this.id },
+    });
+    return cart;
+  }
+
   @HasMany(() => Address, "user_id")
     addresses!: Address[];
   @HasMany(() => Cart, "user_id")

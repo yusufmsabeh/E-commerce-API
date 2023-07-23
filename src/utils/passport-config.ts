@@ -12,7 +12,7 @@ export const passportConfig = () => {
       },
       async (jwt_payload: any, done: any) => {
         const user = await User.findByPk(jwt_payload.userId);
-        if (!user) return done("invalid token", false);
+        if (!user) return done(null, false);
         return done(null, user);
       }
     )

@@ -7,7 +7,8 @@ import { router as productsRouter } from "./routes/products";
 import { router as authRouter } from "./routes/auth";
 import { router as favouritesRouter } from "./routes/favourites";
 import { router as ordersRouter } from "./routes/orders";
-import connection from "./database/config";
+import { router as cartsRouter } from "./routes/carts";
+import getConnection from "./database/config";
 import { errorHandler } from "./middlewares/error-handler";
 import multer from "multer";
 import passport from "passport";
@@ -24,6 +25,7 @@ app.use("/auth", authRouter);
 app.use("/categories", categoriesRouter);
 app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
+app.use("/carts", cartsRouter);
 app.use("/favourites", favouritesRouter);
 app.use("/orders",ordersRouter);
 app.use(errorHandler);
@@ -35,9 +37,9 @@ process.on("uncaughtException", (error: Error) => {
   console.log("uncaught Exception", error.message);
   throw error;
 });
-connection.authenticate().then(
+getConnection().authenticate().then(
   () => {
-    connection.sync({ alter: true }).then(() => {
+    getConnection().sync().then(() => {
       app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
