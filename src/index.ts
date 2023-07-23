@@ -39,7 +39,7 @@ process.on("uncaughtException", (error: Error) => {
 });
 getConnection().authenticate().then(
   () => {
-    getConnection().sync().then(() => {
+    getConnection().sync({force:true}).then(() => {
       app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
