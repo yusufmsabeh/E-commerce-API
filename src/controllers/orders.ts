@@ -5,7 +5,6 @@ import { Cart } from "../models/Cart";
 import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
 
-
 export const postOrders: RequestHandler = async (
   request: Request,
   response: Response,
@@ -16,7 +15,9 @@ export const postOrders: RequestHandler = async (
     const { transactionId, cartId, email } = request.body;
     const user = request.user as User;
     let order;
-    const cart = await Cart.findOne({ where: { id: cartId, status: ORDER_STATUS.ACTIVE } });
+    const cart = await Cart.findOne({
+      where: { id: cartId, status: ORDER_STATUS.ACTIVE },
+    });
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
     cart.status = 1;
     await cart.save();
@@ -55,45 +56,54 @@ export const postOrders: RequestHandler = async (
   }
 };
 
-export const getOrders:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
-    const user:User = request.user as User;
-    const orders=await user.$get("orders");
+export const getOrders: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = request.user as User;
+    const orders = await user.$get("orders");
     response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        orders:orders
-      }
+      error: false,
+      status: 200,
+      data: {
+        orders: orders,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
   }
 };
 
-export const getOrderById:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
-    const user:User = request.user as User;
-    const {id} =request.params;
-    const order:Order=(await user.$get("orders",{where:{id:id}}))[0];
-    if(!order) return response.status(422).json({
-      error:true,
-      status:422,
-      data:{
-        message: "there is no order with this ID"
-      }
-    });
+export const getOrderById: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = request.user as User;
+    const { id } = request.params;
+    const order: Order = (await user.$get("orders", { where: { id: id } }))[0];
+    if (!order)
+      return response.status(422).json({
+        error: true,
+        status: 422,
+        data: {
+          message: "there is no order with this ID",
+        },
+      });
 
-    const cart=    await order.$get("cart");
+    const cart = await order.$get("cart");
     const products = await cart?.$get("products");
     response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        products:products
-      }
+      error: false,
+      status: 200,
+      data: {
+        products: products,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
   }
 };
