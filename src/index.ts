@@ -5,8 +5,8 @@ import { router as categoriesRouter } from "./routes/categories";
 import { router as brandsRouter } from "./routes/brands";
 import { router as productsRouter } from "./routes/products";
 import { router as authRouter } from "./routes/auth";
-import {router as favouritesRouter} from "./routes/favourites";
-import connection from "./database/config";
+import { router as favouritesRouter } from "./routes/favourites";
+import { router as ordersRouter } from "./routes/orders";
 import { router as cartsRouter } from "./routes/carts";
 import getConnection from "./database/config";
 import { errorHandler } from "./middlewares/error-handler";
@@ -27,6 +27,7 @@ app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
 app.use("/carts", cartsRouter);
 app.use("/favourites", favouritesRouter);
+app.use("/orders",ordersRouter);
 app.use(errorHandler);
 process.on("unhandledRejection", (reason: Error | any) => {
   console.log("unhandled Rejection: ", reason.message | reason);
