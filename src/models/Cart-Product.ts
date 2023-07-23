@@ -2,6 +2,7 @@ import {
   Column,
   DataType,
   ForeignKey,
+  HasMany,
   Model,
   Table,
 } from "sequelize-typescript";
@@ -30,7 +31,10 @@ export class CartProduct extends Model {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    defaultValue:1
+    defaultValue: 1,
   })
     quantity!: number;
+
+  @HasMany(() => Product, "id")
+    products!: Product[];
 }

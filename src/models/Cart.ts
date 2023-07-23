@@ -52,14 +52,23 @@ export class Cart extends Model {
     order!: Order;
 
   public async updateTotalCost(cart: Cart) {
-    const result: any = await getConnection().query(
-      {
-        query:
-          "SELECT SUM(cart_products.quantity * products.price) AS totalPrice FROM cart_products JOIN products ON cart_products.product_id = products.id WHERE cart_id = ?",
-        values: [cart.id],
+    const connection = getConnection();
+    const result: any = await CartProduct.findAll({
+      attributes: [
+        [connection.literal("quantity*products.price"), "totalPrice"],
+      ],
+      include: [
+        {
+          model: Product,
+          attributes: [],
+        },
+      ],
+      where: {
+        cart_id: cart.id,
       },
-      { type: sequelize.QueryTypes.SELECT }
-    );
+      raw: true,
+    });
+    console.log(result);
     const totalPrice: number = result[0].totalPrice ?? 0;
     const cartDiscount: number = cart.discount / 100;
     const tax = cart.tax;
