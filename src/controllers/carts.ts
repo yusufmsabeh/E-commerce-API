@@ -9,22 +9,26 @@ export const postCart: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-  const user: User = request.user as User;
-  const cart: Cart = await user.getCart();
-  const productId = request.params.id;
-  const product = await Product.findByPk(productId);
-  const hasProduct = await cart.$has("product", product!);
-  if (!hasProduct) {
-    await cart.$add("product", product!);
-  } else {
-    await cart.$set("products", product, {
-      through: { quantity: Sequelize.literal("quantity+1") },
+  try {
+    const user: User = request.user as User;
+    const cart: Cart = await user.getCart();
+    const productId = request.params.id;
+    const product = await Product.findByPk(productId);
+    const hasProduct = await cart.$has("product", product!);
+    if (!hasProduct) {
+      await cart.$add("product", product!);
+    } else {
+      await cart.$set("products", product, {
+        through: { quantity: Sequelize.literal("quantity+1") },
+      });
+    }
+    await cart.updateTotalCost(cart);
+    response.status(201).json({
+      error: false,
+      status: 201,
+      data: { message: "Item added successfully" },
     });
+  } catch (e) {
+    next(e);
   }
-  await cart.updateTotalCost(cart);
-  response.status(201).json({
-    error: false,
-    status: 201,
-    data: { message: "Item added successfully" },
-  });
 };
