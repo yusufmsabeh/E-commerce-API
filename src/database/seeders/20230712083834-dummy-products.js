@@ -574,14 +574,54 @@ module.exports = {
         updatedAt: new Date(),
       },
     ]);
-    const productImageUrl =
-      "https://cdn.vox-cdn.com/thumbor/QgEMwYKlcK9fSFsZD2FIe9SouxM=/0x0:4915x3930/1200x800/filters:focal(1719x1156:2505x1942)/cdn.vox-cdn.com/uploads/chorus_image/image/61753005/clothingrack.0.jpg";
     await queryInterface.bulkDelete("product_images", null, {});
+    const productImages = [
+      "https://www.incu.com/cdn/shop/products/mens-incu-926_103d8cab-ffc9-4412-bbd8-1664c4b5f7fb.jpg",
+      "https://cdn.laredoute.com/products/3/a/1/3a134f99bc9cf3f6123440f8241dd25d.jpg",
+      "https://image1.superdry.com/static/images/optimised/zoom/upload9223368955666055318.jpg",
+      "https://www.southernliving.com/thmb/mzUvwYZGaDRx32QtWtyWKR27Qx0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Floral-Print-Smocked-Top-Maxi-Sundress-for-Women-in-White-Ditsy-Floral-37e273b9dc6f47e5985d8e12c21ef815.png",
+      "https://maggiesboxusa.com/cdn/shop/products/IMG_4467_1024x1024.jpg",
+      "https://assets.burberry.com/is/image/Burberryltd/A7D8CF73-3F4F-417B-AA64-0B1E147F8D1F?$BBY_V2_SL_1x1$&wid=2500&hei=2500",
+      "https://www.secretlabel.co.uk/cdn/shop/files/7dbfcc37-f9e9-449e-91b4-4c57391164c1.jpg",
+      "https://i0.wp.com/mirellamoments.com/wp-content/uploads/2022/02/The-folgate-hat-knitting-pattern-mirella-moment-featured.jpg",
+      "https://www.gutteridge.com/on/demandware.static/-/Sites-catalog-gutteridge-master/default/dwa6936885/hi-res/CF782GULUY3_0099C_001.jpg",
+      "https://img.fruugo.com/product/2/92/723155922_max.jpg",
+      "https://www.phase-eight.com/dw/image/v2/BDCH_PRD/on/demandware.static/-/Sites-master-Catalog-P8/default/dw8668c001/images/750765215/750765215-01-camila-tan-suede-ankle-boots.jpg",
+      "https://images.asos-media.com/products/asos-design-oversized-hoodie-with-the-great-wave-off-kanagawa-graphic-print-in-light-green/201335599-3?$n_640w$&wid=513&fit=constrain",
+      "https://www.bodenimages.com/productimages/r1aproductlarge/22whsm_d0214_blk_m05.jpg",
+      "https://www.sunglassmuseum.com/cdn/shop/products/WOLFMAN_502.jpg",
+      "https://www.collagerie.com/_next/image?url=https%3A%2F%2Fcdn.shopify.com%2Fs%2Ffiles%2F1%2F0567%2F2960%2F0181%2Fproducts%2Fzara-stripe-polo-jumper.jpg%3Fv%3D1662543919&w=3840&q=75",
+      "https://www.net-a-porter.com/variants/images/1647597291826874/in/w2000_q60.jpg",
+      "https://en.louisvuitton.com/images/is/image/lv/1/PP_VP_M/louis-vuitton--FMTO71NR1001_PM2_Front%20view.jpg",
+      "https://image1.superdry.com/static/images/optimised/zoom/upload9223368955666181968.jpg",
+      "https://m.media-amazon.com/images/I/71n4qy2SQFL._AC_UY1100_.jpg",
+      "https://assets.burberry.com/is/image/Burberryltd/AD44779B-DC38-4BD3-A2AF-BD5724D1FCF7?$BBY_V2_SL_1x1$&wid=2500&hei=2500",
+      "https://rukminim1.flixcart.com/image/550/650/xif0q/kids-legging/3/y/a/9-10-years-printed-105-104-103-102-101-tik-tok-wears-original-imagrhnd9w6kfcnc.jpeg?q=90&crop=false",
+      "https://gant.com/dw/image/v2/BFLN_PRD/on/demandware.static/-/Sites-gant-master/default/dw6fc8dba4/pim/202204/8030552/92/202204-8030552-92-model-fv-1.jpg",
+      "https://www.farmrio.eu/cdn/shop/products/311873_06.jpg",
+      "https://i0.wp.com/mirellamoments.com/wp-content/uploads/2022/02/The-folgate-infinity-scarf-mirella-moments-6.jpg",
+      "https://i0.wp.com/mirellamoments.com/wp-content/uploads/2022/02/The-folgate-infinity-scarf-mirella-moments-6.jpg",
+      "https://asset1.cxnmarksandspencer.com/is/image/mands/SD_01_T49_3000T_Y0_X_EC_0?%24PDP_IMAGEGRID%24=&wid=1024&qlt=80",
+      "https://www.piniparma.com/cdn/shop/products/stripedlinenshorts_3_2048x.jpg",
+      "https://www.piniparma.com/cdn/shop/products/stripedlinenshorts_3_2048x.jpg",
+      "https://assets.burberry.com/is/image/Burberryltd/BB88A029-171F-4249-8928-841A1E242253?$BBY_V2_SL_1x1$&wid=2500&hei=2500",
+      "https://static.contrado.com/resources/images/2019-2/118143/printed-silk-scarf-619853_l.jpg",
+      "https://static.lefties.com/9/photos2/2023/V/0/2/p/1811/504/527/1811504527_4_1_1.jpg",
+      "https://eu.sandro-paris.com/dw/image/v2/BCMW_PRD/on/demandware.static/-/Sites-sandro-catalog-master-H13/default/dw8a8f963f/images/h13/Sandro_SFPCM00852-10_V_P.jpg",
+      "https://www.prada.com/content/dam/pradabkg_products/G/GFZ/GFZ010/12K1F0V3N/GFZ010_12K1_F0V3N_S_231_SLF.jpg",
+      "https://www.prada.com/content/dam/pradabkg_products/G/GFZ/GFZ010/12K1F0V3N/GFZ010_12K1_F0V3N_S_231_SLF.jpg",
+      "https://images.squarespace-cdn.com/content/v1/5ad559ba372b96afa5d29191/1637780238046-OHSLY5JLOHXD3DVCGXT3/oversized-tie-dye-t-shirt-milky-way-back-619e8b0668c47.jpg",
+      "https://assemblylabel.com/cdn/shop/products/b2cbc7f4a72741148fe094adc9ddd509_600x.jpg",
+    ];
     for (let i = 0; i < 37; i++) {
       await queryInterface.bulkInsert("product_images", [
         {
-          image_url: productImageUrl,
-          image_alt: productImageUrl,
+          image_url:
+            productImages[i] ??
+            "https://assemblylabel.com/cdn/shop/products/b2cbc7f4a72741148fe094adc9ddd509_600x.jpg",
+          image_alt:
+            productImages[i] ??
+            "https://assemblylabel.com/cdn/shop/products/b2cbc7f4a72741148fe094adc9ddd509_600x.jpg",
           product_id: productsId + i,
         },
       ]);
