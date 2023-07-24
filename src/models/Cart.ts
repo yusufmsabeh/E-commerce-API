@@ -40,7 +40,7 @@ export class Cart extends Model {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: CART_STATUS.IN_PROGRESS,
   })
     status!: number;
 

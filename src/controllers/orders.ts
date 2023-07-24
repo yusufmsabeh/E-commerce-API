@@ -16,22 +16,22 @@ export const postOrders: RequestHandler = async (
     const user = request.user as User;
     let order;
     const cart = await Cart.findOne({
-      where: { id: cartId, status: ORDER_STATUS.ACTIVE },
+      where: { id: cartId, status: CART_STATUS.IN_PROGRESS },
     });
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
-    cart.status = 1;
+    cart.status = CART_STATUS.MOVE_TO_ORDERS;
     await cart.save();
     if (user) {
       order = await user.$create("order", {
         email: user.email,
-        status: 0,
+        status: ORDER_STATUS.ACTIVE,
         cart_id: cartId,
         transaction_id: transactionId,
       });
     } else if (email) {
       order = await Order.create({
         email: email,
-        status: 0,
+        status: ORDER_STATUS.ACTIVE,
         user_id: null,
         cart_id: cartId,
         transaction_id: transactionId,

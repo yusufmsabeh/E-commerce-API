@@ -37,7 +37,7 @@ export const getCart: RequestHandler = async (
   try {
     const user: User = request.user as User;
     const cart = await user.$get("carts", {
-      where: { status: 0 },
+      where: { status: CART_STATUS.IN_PROGRESS },
       include: [Product],
     });
     response.status(200).json({

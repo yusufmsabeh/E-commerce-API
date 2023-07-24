@@ -13,12 +13,14 @@ import { errorHandler } from "./middlewares/error-handler";
 import multer from "multer";
 import passport from "passport";
 import { passportConfig } from "./utils/passport-config";
+import cors from "cors";
 dotenv.config();
 const app = express();
 const PORT = parseInt(process.env.PORT ?? "3000");
 app.use(passport.initialize());
 passportConfig();
 const upload = multer();
+app.use(cors());
 app.use(upload.any());
 app.use("/test", testRouter);
 app.use("/auth", authRouter);
@@ -39,7 +41,7 @@ process.on("uncaughtException", (error: Error) => {
 });
 getConnection().authenticate().then(
   () => {
-    getConnection().sync().then(() => {
+    getConnection().sync({force:true}).then(() => {
       app.listen(PORT, "localhost", () => {
         console.log("server is listening on port ", PORT);
       });
