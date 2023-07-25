@@ -21,6 +21,6 @@ export const errorHandler = (
   response.status(500).json({
     error: true,
     status: status,
-    message: message,
+    data: { message: message },
   });
 };

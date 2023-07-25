@@ -5,14 +5,13 @@ import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
 import { buildFilter } from "../utils/build-filter";
-import {GeneralError} from "../errors/general-error";
+import { GeneralError } from "../errors/general-error";
 
 export const getProducts = async (
   request: Request,
   response: Response,
   next: NextFunction
 ) => {
-
   const { page = 0 } = request.query;
   const startingOffset = parseInt(page as string) * 20;
   const where = buildFilter(request);
@@ -30,7 +29,6 @@ export const getProducts = async (
       products: products,
     },
   });
-
 };
 
 export const getSearchProductsAndBrands: RequestHandler = async (
@@ -74,12 +72,12 @@ export const getProductById: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-
   const { id } = request.params;
-  const product = await Product.findByPk(id,{
-    include:[ProductImages,Brand,Category]
+  const product = await Product.findByPk(id, {
+    include: [ProductImages, Brand, Category],
   });
-  if (!product) return next(new GeneralError("There is no product with this ID",404));
+  if (!product)
+    return next(new GeneralError("There is no product with this ID", 404));
   return response.status(200).json({
     error: false,
     status: 200,
@@ -87,5 +85,4 @@ export const getProductById: RequestHandler = async (
       product: product,
     },
   });
-
 };
