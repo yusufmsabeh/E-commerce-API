@@ -9,7 +9,8 @@ import { hash, compareSync } from "bcrypt";
 import { User } from "../models/User";
 import * as jwt from "jsonwebtoken";
 import { signupValidator } from "../validators/signup-validator";
-import {loginValidator} from "../validators/login-validator";
+import { loginValidator } from "../validators/login-validator";
+import { GeneralError } from "../errors/general-error";
 export const signup: RequestHandler = async (
   request: Request,
   response: Response,
@@ -19,6 +20,8 @@ export const signup: RequestHandler = async (
     signupValidator(request.body);
     const { firstName, lastName, mobile, email, dateOfBirth, password } =
       request.body;
+    const isExist = !!(await User.findOne({ where: { email: email } }));
+    if (isExist) return next(new GeneralError("Email already exists", 409));
     const formattedDateOfBirth = new Date(dateOfBirth);
     const hashedPassword = await hash(password, 5);
     const user = new User({
@@ -46,17 +49,12 @@ export const login: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-  try{
+  try {
     loginValidator(request.body);
     const { email, password } = request.body;
     const user = await User.findOne({ where: { email: email } });
-    if (!user) {
-      return response.status(404).json({
-        error: true,
-        status: 404,
-        data: { message: "There is no user with email" },
-      });
-    }
+    if (!user)
+      return next(new GeneralError("There is no user with email", 404));
 
     if (!compareSync(password, user.password))
       return response.status(400).json({
@@ -83,8 +81,7 @@ export const login: RequestHandler = async (
         },
       },
     });
-  }catch (e){
+  } catch (e) {
     next(e);
   }
-
 };
