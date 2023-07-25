@@ -1,4 +1,8 @@
 const enum ORDER_STATUS {
-  ACTIVE = 1,
-  COMPLETED = 2,
+  ACTIVE = 0,
+  COMPLETED = 1,
+}
+const enum CART_STATUS {
+  IN_PROGRESS = 0,
+  MOVE_TO_ORDERS = 1,
 }
