@@ -51,7 +51,7 @@ export class Cart extends Model {
   @HasOne(() => Order, "cart_id")
     order!: Order;
 
-  public async updateTotalCost(cart: Cart) {
+  public async updateTotalCost() {
     const connection = getConnection();
     const result: any = await CartProduct.findAll({
       attributes: [
@@ -63,16 +63,20 @@ export class Cart extends Model {
           attributes: [],
         },
       ],
+
       where: {
-        cart_id: cart.id,
+        cart_id: this.id,
       },
       raw: true,
     });
-    console.log(result);
-    const totalPrice: number = result[0].totalPrice ?? 0;
-    const cartDiscount: number = cart.discount / 100;
-    const tax = cart.tax;
-    cart.total_cost = totalPrice - totalPrice * cartDiscount + tax;
-    await cart.save();
+
+    this.total_cost=0;
+    if (result.length>0) {
+      const totalPrice = result[0].totalPrice ?? 0;
+      const cartDiscount: number = this.discount / 100;
+      const tax = this.tax;
+      this.total_cost = totalPrice - totalPrice * cartDiscount + tax;
+    }
+    await this.save();
   }
 }
