@@ -14,28 +14,37 @@ export const postCart: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-  const user: User = request.user as User;
-  const quantity:number= parseInt(request.query.quantity as string ?? "1");
-  if (quantity <1)return next(new GeneralError("product quantity can not be less then 1",422));
-  const cart: Cart = await cartServices.getCart(user.id);
-  const productId = request.params.id;
-  const product = await productServices.getProductByID(productId);
-  if (!product)
-    return next(new GeneralError("There is no product with this ID", 404));
-  const hasProduct = await cart.$has("product", product);
-  if (!hasProduct) {
-    await cart.$add("product", product,{through:{quantity:quantity}});
-  } else {
-    await cart.$set("products", product, {
-      through: { quantity: Sequelize.literal(`quantity+${quantity}`) },
+  try {
+    const user: User = request.user as User;
+    const quantity: number = parseInt(
+      (request.query.quantity as string) ?? "1"
+    );
+    if (quantity < 1)
+      return next(
+        new GeneralError("product quantity can not be less then 1", 422)
+      );
+    const cart: Cart = await cartServices.getCart(user.id);
+    const productId = request.params.id;
+    const product = await productServices.getProductByID(productId);
+    if (!product)
+      return next(new GeneralError("There is no product with this ID", 404));
+    const hasProduct = await cart.$has("product", product);
+    if (!hasProduct) {
+      await cart.$add("product", product, { through: { quantity: quantity } });
+    } else {
+      await cart.$set("products", product, {
+        through: { quantity: Sequelize.literal(`quantity+${quantity}`) },
+      });
+    }
+    await cartServices.updateTotalPrice(cart);
+    response.status(201).json({
+      error: false,
+      status: 201,
+      data: { message: "Item added successfully" },
     });
+  } catch (e) {
+    next(e);
   }
-  await cartServices.updateTotalPrice(cart);
-  response.status(201).json({
-    error: false,
-    status: 201,
-    data: { message: "Item added successfully" },
-  });
 };
 export const deleteCart: RequestHandler = async (
   request: Request,
