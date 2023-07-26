@@ -19,11 +19,11 @@ export const postCart: RequestHandler = async (
   const product = await productServices.getProductByID(productId);
   if (!product)
     return next(new GeneralError("There is no product with this ID", 404));
-  const hasProduct = await cartServices.cartHasProduct(cart, product);
+  const hasProduct = await  cart.$has("product", product);
   if (!hasProduct) {
-    await cartServices.addProductToCart(cart, product);
+    await cart.$add("product",product);
   } else {
-    await cartServices.updateCartProduct(cart, product, {
+    await cart.$set( "products", product,{
       through: { quantity: Sequelize.literal("quantity+1") },
     });
   }

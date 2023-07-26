@@ -15,17 +15,6 @@ export const getActiveCartById = async (cartId:string)=>{
     where: { id: cartId, status: CART_STATUS.IN_PROGRESS },
   });
 };
-export const cartHasProduct = async (cart:Cart,product:Product)=>{
-  return await cart.$has("product", product);
-    
-};
-
-export const addProductToCart = async (cart:Cart,product:Product)=>{
-  await cart.$add("product",product);
-};
-export const updateCartProduct = async (cart:Cart,product:Product,options={})=>{
-  await cart.$set("products", product, options);
-};
 
 export const updateTotalPrice = async (cart:Cart)=>{
 
