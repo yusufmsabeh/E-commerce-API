@@ -15,6 +15,8 @@ export const postCart: RequestHandler = async (
   next: NextFunction
 ) => {
   const user: User = request.user as User;
+  const quantity:number= parseInt(request.query.quantity as string ?? "1");
+  if (quantity <1)return next(new GeneralError("product quantity can not be less then 1",422));
   const cart: Cart = await cartServices.getCart(user.id);
   const productId = request.params.id;
   const product = await productServices.getProductByID(productId);
@@ -22,10 +24,10 @@ export const postCart: RequestHandler = async (
     return next(new GeneralError("There is no product with this ID", 404));
   const hasProduct = await cart.$has("product", product);
   if (!hasProduct) {
-    await cart.$add("product", product);
+    await cart.$add("product", product,{through:{quantity:quantity}});
   } else {
     await cart.$set("products", product, {
-      through: { quantity: Sequelize.literal("quantity+1") },
+      through: { quantity: Sequelize.literal(`quantity+${quantity}`) },
     });
   }
   await cartServices.updateTotalPrice(cart);
