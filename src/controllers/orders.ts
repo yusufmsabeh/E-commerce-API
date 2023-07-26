@@ -3,9 +3,10 @@ import { User } from "../models/User";
 import { Order } from "../models/Order";
 import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
-import * as cartServices from"../services/cart";
-import * as orderServices from"../services/order";
-import {CART_STATUS,ORDER_STATUS} from "../enums/status-enums";
+import * as cartServices from "../services/cart";
+import * as orderServices from "../services/order";
+import * as cartProductServices from "../services/cart-product";
+import { CART_STATUS, ORDER_STATUS } from "../enums/status-enums";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -19,6 +20,11 @@ export const postOrders: RequestHandler = async (
     let order;
     const cart = await cartServices.getActiveCartById(cartId);
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
+    const productsInCart = await cartProductServices.getCartProducts({
+      where: { cart_id: cartId },
+    });
+    if (productsInCart.length < 1)
+      return next(new GeneralError("Your cart is Empty", 422));
     cart.status = CART_STATUS.MOVE_TO_ORDERS;
     await cart.save();
     if (user) {
@@ -37,7 +43,9 @@ export const postOrders: RequestHandler = async (
         transaction_id: transactionId,
       });
     } else {
-      return next(new GeneralError("Email address can not be null or login please",422));
+      return next(
+        new GeneralError("Email address can not be null or login please", 422)
+      );
     }
     response.status(201).json({
       error: false,
