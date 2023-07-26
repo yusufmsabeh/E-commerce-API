@@ -970,7 +970,7 @@ module.exports = {
       "https://www.southernliving.com/thmb/mzUvwYZGaDRx32QtWtyWKR27Qx0=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Floral-Print-Smocked-Top-Maxi-Sundress-for-Women-in-White-Ditsy-Floral-37e273b9dc6f47e5985d8e12c21ef815.png",
       "https://maggiesboxusa.com/cdn/shop/products/IMG_4467_1024x1024.jpg",
       "https://assets.burberry.com/is/image/Burberryltd/A7D8CF73-3F4F-417B-AA64-0B1E147F8D1F?$BBY_V2_SL_1x1$&wid=2500&hei=2500",
-      "https://www.secretlabel.co.uk/cdn/shop/files/7dbfcc37-f9e9-449e-91b4-4c57391164c1.jpg",
+      "https://m.media-amazon.com/images/I/41Rnj72vJNL._AC_UY1100_.jpg",
       "https://i0.wp.com/mirellamoments.com/wp-content/uploads/2022/02/The-folgate-hat-knitting-pattern-mirella-moment-featured.jpg",
       "https://www.gutteridge.com/on/demandware.static/-/Sites-catalog-gutteridge-master/default/dwa6936885/hi-res/CF782GULUY3_0099C_001.jpg",
       "https://img.fruugo.com/product/2/92/723155922_max.jpg",
