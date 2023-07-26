@@ -1,9 +1,11 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { User } from "../models/User";
 import { Order } from "../models/Order";
-import { Cart } from "../models/Cart";
 import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
+import * as cartServices from"../services/cart";
+import * as orderServices from"../services/order";
+import {CART_STATUS,ORDER_STATUS} from "../enums/status-enums";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -15,9 +17,7 @@ export const postOrders: RequestHandler = async (
     const { transactionId, cartId, email } = request.body;
     const user = request.user as User;
     let order;
-    const cart = await Cart.findOne({
-      where: { id: cartId, status: CART_STATUS.IN_PROGRESS },
-    });
+    const cart = await cartServices.getActiveCartById(cartId);
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
     cart.status = CART_STATUS.MOVE_TO_ORDERS;
     await cart.save();
@@ -29,7 +29,7 @@ export const postOrders: RequestHandler = async (
         transaction_id: transactionId,
       });
     } else if (email) {
-      order = await Order.create({
+      order = await orderServices.createOrder({
         email: email,
         status: ORDER_STATUS.ACTIVE,
         user_id: null,
@@ -37,11 +37,7 @@ export const postOrders: RequestHandler = async (
         transaction_id: transactionId,
       });
     } else {
-      return response.status(422).json({
-        error: true,
-        status: 422,
-        message: "email address can not be null",
-      });
+      return next(new GeneralError("Email address can not be null or login please",422));
     }
     response.status(201).json({
       error: false,
