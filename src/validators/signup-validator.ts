@@ -1,5 +1,6 @@
 import Joi, { date, string } from "joi";
-import {ValidationError} from "../errors/validation";
+import { ValidationError } from "../errors/validation";
+import { User } from "../models/User";
 const signupSchema = Joi.object({
   firstName: Joi.string().min(5).max(20).required().label("first name"),
   lastName: Joi.string().min(5).max(20).required().label("last name"),
@@ -20,11 +21,9 @@ const signupSchema = Joi.object({
     }),
 });
 
-
-export const signupValidator = (signupInput:SignupInput) => {
-  const {value,error} = signupSchema.validate(signupInput,{abortEarly:false});
-  if(error) throw new ValidationError("invalid inputs",error.details);
-
+export const signupValidator = (signupInput: SignupInput) => {
+  const { error } = signupSchema.validate(signupInput);
+  if (error) throw new ValidationError("invalid inputs", error.details);
 };
 
 interface SignupInput {

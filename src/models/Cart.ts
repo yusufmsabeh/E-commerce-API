@@ -12,7 +12,7 @@ import { Product } from "./Product";
 import { CartProduct } from "./Cart-Product";
 import { Order } from "./Order";
 import getConnection from "../database/config";
-import sequelize from "sequelize";
+import {CART_STATUS} from "../enums/status-enums";
 
 @Table({
   timestamps: false,
@@ -40,7 +40,7 @@ export class Cart extends Model {
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
-    defaultValue: 0,
+    defaultValue: CART_STATUS.IN_PROGRESS,
   })
     status!: number;
 
@@ -51,19 +51,32 @@ export class Cart extends Model {
   @HasOne(() => Order, "cart_id")
     order!: Order;
 
-  public async updateTotalCost(cart: Cart) {
-    const result: any = await getConnection().query(
-      {
-        query:
-          "SELECT SUM(cart_products.quantity * products.price) AS totalPrice FROM cart_products JOIN products ON cart_products.product_id = products.id WHERE cart_id = ?",
-        values: [cart.id],
+  public async updateTotalCost() {
+    const connection = getConnection();
+    const result: any = await CartProduct.findAll({
+      attributes: [
+        [connection.literal("quantity*products.price"), "totalPrice"],
+      ],
+      include: [
+        {
+          model: Product,
+          attributes: [],
+        },
+      ],
+
+      where: {
+        cart_id: this.id,
       },
-      { type: sequelize.QueryTypes.SELECT }
-    );
-    const totalPrice: number = result[0].totalPrice ?? 0;
-    const cartDiscount: number = cart.discount / 100;
-    const tax = cart.tax;
-    cart.total_cost = totalPrice - totalPrice * cartDiscount + tax;
-    await cart.save();
+      raw: true,
+    });
+
+    this.total_cost=0;
+    if (result.length>0) {
+      const totalPrice = result[0].totalPrice ?? 0;
+      const cartDiscount: number = this.discount / 100;
+      const tax = this.tax;
+      this.total_cost = totalPrice - totalPrice * cartDiscount + tax;
+    }
+    await this.save();
   }
 }

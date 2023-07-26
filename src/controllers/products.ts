@@ -1,5 +1,6 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Product } from "../models/Product";
+import * as productServices from "../services/product";
 import { Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
@@ -16,7 +17,7 @@ export const getProducts = async (
     const { page = 0 } = request.query;
     const startingOffset = parseInt(page as string) * 20;
     const where = buildFilter(request);
-    const products = await Product.findAll({
+    const products = await productServices.getProducts({
       offset: startingOffset,
       limit: 20,
       include: [ProductImages, Brand, Category],
@@ -44,7 +45,7 @@ export const getSearchProductsAndBrands: RequestHandler = async (
     const { q, page = 0 } = request.query;
     if (!q) return next();
     const startingOffset = parseInt(page as string) * 20;
-    const products: Product[] = await Product.findAll({
+    const products: Product[] = await productServices.getProducts({
       include: ProductImages,
       offset: startingOffset,
       limit: 20,
@@ -82,9 +83,7 @@ export const getProductById: RequestHandler = async (
 ) => {
   try {
     const { id } = request.params;
-    const product = await Product.findByPk(id, {
-      include: [ProductImages, Brand, Category],
-    });
+    const product = await productServices.getProductByID(id);
     if (!product)
       return next(new GeneralError("There is no product with this ID", 404));
     return response.status(200).json({

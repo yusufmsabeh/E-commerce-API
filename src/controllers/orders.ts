@@ -1,10 +1,12 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { User } from "../models/User";
 import { Order } from "../models/Order";
-import { Cart } from "../models/Cart";
 import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
-
+import * as cartServices from "../services/cart";
+import * as orderServices from "../services/order";
+import * as cartProductServices from "../services/cart-product";
+import { CART_STATUS, ORDER_STATUS } from "../enums/status-enums";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -16,31 +18,34 @@ export const postOrders: RequestHandler = async (
     const { transactionId, cartId, email } = request.body;
     const user = request.user as User;
     let order;
-    const cart = await Cart.findOne({ where: { id: cartId, status: ORDER_STATUS.ACTIVE } });
+    const cart = await cartServices.getActiveCartById(cartId);
     if (!cart) return next(new GeneralError("Cart does not exist", 404));
-    cart.status = 1;
+    const productsInCart = await cartProductServices.getCartProducts({
+      where: { cart_id: cartId },
+    });
+    if (productsInCart.length < 1)
+      return next(new GeneralError("Your cart is Empty", 422));
+    cart.status = CART_STATUS.MOVE_TO_ORDERS;
     await cart.save();
     if (user) {
       order = await user.$create("order", {
         email: user.email,
-        status: 0,
+        status: ORDER_STATUS.ACTIVE,
         cart_id: cartId,
         transaction_id: transactionId,
       });
     } else if (email) {
-      order = await Order.create({
+      order = await orderServices.createOrder({
         email: email,
-        status: 0,
+        status: ORDER_STATUS.ACTIVE,
         user_id: null,
         cart_id: cartId,
         transaction_id: transactionId,
       });
     } else {
-      return response.status(422).json({
-        error: true,
-        status: 422,
-        message: "email address can not be null",
-      });
+      return next(
+        new GeneralError("Email address can not be null or login please", 422)
+      );
     }
     response.status(201).json({
       error: false,
@@ -55,45 +60,54 @@ export const postOrders: RequestHandler = async (
   }
 };
 
-export const getOrders:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
-    const user:User = request.user as User;
-    const orders=await user.$get("orders");
+export const getOrders: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = request.user as User;
+    const orders = await user.$get("orders");
     response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        orders:orders
-      }
+      error: false,
+      status: 200,
+      data: {
+        orders: orders,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
   }
 };
 
-export const getOrderById:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
-    const user:User = request.user as User;
-    const {id} =request.params;
-    const order:Order=(await user.$get("orders",{where:{id:id}}))[0];
-    if(!order) return response.status(422).json({
-      error:true,
-      status:422,
-      data:{
-        message: "there is no order with this ID"
-      }
-    });
+export const getOrderById: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user: User = request.user as User;
+    const { id } = request.params;
+    const order: Order = (await user.$get("orders", { where: { id: id } }))[0];
+    if (!order)
+      return response.status(422).json({
+        error: true,
+        status: 422,
+        data: {
+          message: "there is no order with this ID",
+        },
+      });
 
-    const cart=    await order.$get("cart");
+    const cart = await order.$get("cart");
     const products = await cart?.$get("products");
     response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        products:products
-      }
+      error: false,
+      status: 200,
+      data: {
+        products: products,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
   }
 };

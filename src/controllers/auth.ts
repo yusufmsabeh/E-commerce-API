@@ -1,15 +1,10 @@
-import {
-  NextFunction,
-  Request,
-  RequestHandler,
-  Response,
-  response,
-} from "express";
+import { NextFunction, Request, RequestHandler, Response } from "express";
 import { hash, compareSync } from "bcrypt";
-import { User } from "../models/User";
 import * as jwt from "jsonwebtoken";
 import { signupValidator } from "../validators/signup-validator";
-import {loginValidator} from "../validators/login-validator";
+import { loginValidator } from "../validators/login-validator";
+import { GeneralError } from "../errors/general-error";
+import * as userServices from "../services/user";
 export const signup: RequestHandler = async (
   request: Request,
   response: Response,
@@ -19,9 +14,11 @@ export const signup: RequestHandler = async (
     signupValidator(request.body);
     const { firstName, lastName, mobile, email, dateOfBirth, password } =
       request.body;
+    const isExist = !!(await userServices.getUserByEmail(email));
+    if (isExist) return next(new GeneralError("Email already exists", 409));
     const formattedDateOfBirth = new Date(dateOfBirth);
     const hashedPassword = await hash(password, 5);
-    const user = new User({
+    await userServices.createUser({
       first_name: firstName,
       last_name: lastName,
       mobile: mobile,
@@ -29,7 +26,7 @@ export const signup: RequestHandler = async (
       date_of_birth: formattedDateOfBirth,
       password: hashedPassword,
     });
-    await user.save();
+
     response.status(200).json({
       error: false,
       status: 200,
@@ -46,17 +43,12 @@ export const login: RequestHandler = async (
   response: Response,
   next: NextFunction
 ) => {
-  try{
+  try {
     loginValidator(request.body);
     const { email, password } = request.body;
-    const user = await User.findOne({ where: { email: email } });
-    if (!user) {
-      return response.status(404).json({
-        error: true,
-        status: 404,
-        data: { message: "There is no user with email" },
-      });
-    }
+    const user = await userServices.getUserByEmail(email);
+    if (!user)
+      return next(new GeneralError("There is no user with email", 404));
 
     if (!compareSync(password, user.password))
       return response.status(400).json({
@@ -83,8 +75,7 @@ export const login: RequestHandler = async (
         },
       },
     });
-  }catch (e){
+  } catch (e) {
     next(e);
   }
-
 };
