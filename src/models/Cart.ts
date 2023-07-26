@@ -12,7 +12,7 @@ import { Product } from "./Product";
 import { CartProduct } from "./Cart-Product";
 import { Order } from "./Order";
 import getConnection from "../database/config";
-import sequelize from "sequelize";
+import {CART_STATUS} from "../enums/status-enums";
 
 @Table({
   timestamps: false,
