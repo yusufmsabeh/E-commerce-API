@@ -5,6 +5,7 @@ import { GeneralError } from "../errors/general-error";
 import { postOrdersValidator } from "../validators/post-orders-validator";
 import * as cartServices from"../services/cart";
 import * as orderServices from"../services/order";
+import {CART_STATUS,ORDER_STATUS} from "../enums/status-enums";
 
 export const postOrders: RequestHandler = async (
   request: Request,

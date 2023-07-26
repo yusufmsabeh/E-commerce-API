@@ -2,6 +2,7 @@ import {Cart} from "../models/Cart";
 import {Product} from "../models/Product";
 import {getCartProducts} from "./cart-product";
 import getConnection from "../database/config";
+import {CART_STATUS} from "../enums/status-enums";
 
 export const getCart = async (user_id:string)=>{
   const [cart] = await Cart.findOrCreate<Cart>({

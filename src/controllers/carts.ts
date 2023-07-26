@@ -7,6 +7,7 @@ import { GeneralError } from "../errors/general-error";
 import * as cartServices from "../services/cart";
 import * as productServices from "../services/product";
 import * as cartProductServices from "../services/cart-product";
+import { CART_STATUS } from "../enums/status-enums";
 
 export const postCart: RequestHandler = async (
   request: Request,
@@ -19,11 +20,11 @@ export const postCart: RequestHandler = async (
   const product = await productServices.getProductByID(productId);
   if (!product)
     return next(new GeneralError("There is no product with this ID", 404));
-  const hasProduct = await  cart.$has("product", product);
+  const hasProduct = await cart.$has("product", product);
   if (!hasProduct) {
-    await cart.$add("product",product);
+    await cart.$add("product", product);
   } else {
-    await cart.$set( "products", product,{
+    await cart.$set("products", product, {
       through: { quantity: Sequelize.literal("quantity+1") },
     });
   }

@@ -2,8 +2,9 @@ import { Product } from "../models/Product";
 import {ProductImages} from "../models/Product-Images";
 import {Brand} from "../models/Brand";
 import {Category} from "../models/Category";
+import {FindOptions} from "sequelize";
 
-export const getProducts = async (options = {}):Promise<Product[]> => {
+export const getProducts = async (options:FindOptions = {}):Promise<Product[]> => {
   return await Product.findAll(options);
 };
 
