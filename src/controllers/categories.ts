@@ -5,14 +5,16 @@ export const getCategories = async (
   response: Response,
   next: NextFunction
 ) => {
-
-  const categories = await categoryServices.getCategories();
-  return response.status(200).json({
-    error: false,
-    status: 200,
-    data: {
-      categories: categories,
-    },
-  });
-
+  try {
+    const categories = await categoryServices.getCategories();
+    return response.status(200).json({
+      error: false,
+      status: 200,
+      data: {
+        categories: categories,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
 };
