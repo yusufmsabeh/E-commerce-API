@@ -46,7 +46,7 @@ export const postCart: RequestHandler = async (
     next(e);
   }
 };
-export const deleteCart: RequestHandler = async (
+export const updateCart: RequestHandler = async (
   request: Request,
   response: Response,
   next: NextFunction
@@ -81,6 +81,41 @@ export const deleteCart: RequestHandler = async (
       status: 200,
       data: {
         message: "product removed from cart successfully",
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const deleteCart = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const user = (await request.user) as User;
+    const cart: Cart = await cartServices.getCart(user.id);
+    const productId = request.params.id;
+    const product: Product | null = await productServices.getProductByID(
+      productId
+    );
+    if (!product)
+      return next(new GeneralError("There is no product with this ID", 404));
+    const productInCart = await cartProductServices.getCartProduct({
+      where: {
+        product_id: product.id,
+        cart_id: cart.id,
+      },
+    });
+    if (!productInCart)
+      return next(new GeneralError("product does not exist in your cart", 404));
+    await productInCart.destroy();
+    response.status(200).json({
+      error: false,
+      status: 204,
+      data: {
+        message: "Product removed from cart successfully",
       },
     });
   } catch (e) {
