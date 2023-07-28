@@ -22,7 +22,7 @@ const signupSchema = Joi.object({
 });
 
 export const signupValidator = (signupInput: SignupInput) => {
-  const { error } = signupSchema.validate(signupInput);
+  const { error } = signupSchema.validate(signupInput ?? {});
   if (error) throw new ValidationError("invalid inputs", error.details);
 };
 

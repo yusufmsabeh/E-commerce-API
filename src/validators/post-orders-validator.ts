@@ -7,7 +7,7 @@ const postOrdersSchema: Joi.ObjectSchema = Joi.object({
 });
 
 export const postOrdersValidator = (postOrderInput: any) => {
-  const { error } = postOrdersSchema.validate(postOrderInput, {
+  const { error } = postOrdersSchema.validate(postOrderInput ?? {}, {
     abortEarly: true,
     allowUnknown: true,
   });
