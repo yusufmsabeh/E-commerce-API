@@ -18,7 +18,7 @@ const loginSchema: Joi.ObjectSchema = Joi.object({
     }),
 });
 export const loginValidator = (loginInput: LoginInput) => {
-  const { error, value } = loginSchema.validate(loginInput, {
+  const { error, value } = loginSchema.validate(loginInput ?? {}, {
     abortEarly: true,
   });
   if (error) throw new ValidationError("invalid input", error.details);
