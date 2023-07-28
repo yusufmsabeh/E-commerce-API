@@ -8,7 +8,7 @@ import { Favourite } from "../models/Favourites";
 import { Sequelize } from "sequelize-typescript";
 import { date } from "joi";
 
-export const postFavourite: RequestHandler = async (
+export const toggleFavourite: RequestHandler = async (
   request: Request,
   response: Response,
   next: NextFunction
@@ -22,10 +22,11 @@ export const postFavourite: RequestHandler = async (
     const hasProduct = await user.$has("favourite", product!);
     console.log(hasProduct);
     if (hasProduct) {
-      return response.status(422).json({
+      await user.$remove("favourite", product!);
+      return response.status(201).json({
         error: false,
-        status: 422,
-        data: { message: "Item is already in the favourites" },
+        status: 201,
+        data: { message: "Item removed successfully" },
       });
     }
     await user.$add("favourite", product!);
