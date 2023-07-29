@@ -16,11 +16,8 @@ export const toggleFavourite: RequestHandler = async (
   try {
     const user: User = request.user as User;
     const productId = request.params.id;
-    console.log(productId);
     const product = await Product.findByPk(productId);
-    console.log(product);
     const hasProduct = await user.$has("favourite", product!);
-    console.log(hasProduct);
     if (hasProduct) {
       await user.$remove("favourite", product!);
       return response.status(201).json({
