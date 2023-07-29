@@ -30,3 +30,20 @@ export const postAddress:RequestHandler = async (request:Request,response:Respon
     next(e);
   }
 };
+
+export const getAddresses:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
+  try{
+    const user = request.user as User;
+    const addresses = await user.$get("addresses");
+    response.status(200).json({
+      error:false,
+      status:200,
+      data:{
+        addresses:addresses
+      }
+    });
+  }catch (e) {
+    next(e);
+
+  }
+};
