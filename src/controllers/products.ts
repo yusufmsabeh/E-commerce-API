@@ -1,12 +1,14 @@
 import { NextFunction, Request, RequestHandler, Response } from "express";
 import { Product } from "../models/Product";
 import * as productServices from "../services/product";
-import { Op } from "sequelize";
+import * as brandServices from "../services/brand";
+import { FindOptions, Op } from "sequelize";
 import { ProductImages } from "../models/Product-Images";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
 import { buildFilter } from "../utils/build-filter";
 import { GeneralError } from "../errors/general-error";
+import { buildPagination } from "../utils/build-pagination";
 
 export const getProducts = async (
   request: Request,
@@ -14,12 +16,15 @@ export const getProducts = async (
   next: NextFunction
 ) => {
   try {
-    const { page = 0 } = request.query;
-    const startingOffset = parseInt(page as string) * 20;
     const where = buildFilter(request);
+    const count = await productServices.getCount({ where: where });
+    const { pagination, limit, startingOffset } = buildPagination(
+      count,
+      request.query
+    );
     const products = await productServices.getProducts({
       offset: startingOffset,
-      limit: 20,
+      limit: limit,
       include: [ProductImages, Brand, Category],
       where: where,
     });
@@ -29,6 +34,7 @@ export const getProducts = async (
       status: 200,
       data: {
         products: products,
+        pagination: pagination,
       },
     });
   } catch (e) {
@@ -42,27 +48,31 @@ export const getSearchProductsAndBrands: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const { q, page = 0 } = request.query;
+    const { q } = request.query;
     if (!q) return next();
-    const startingOffset = parseInt(page as string) * 20;
+    const where: FindOptions = {
+      where: {
+        title: {
+          [Op.like]: `%${q}%`,
+        },
+      },
+    };
+    const productsCount = await productServices.getCount(where);
+    const brandsCount = await brandServices.getCount(where);
+    const { pagination, limit, startingOffset } = buildPagination(
+      Math.max(productsCount, brandsCount),
+      request.query
+    );
     const products: Product[] = await productServices.getProducts({
       include: ProductImages,
       offset: startingOffset,
-      limit: 20,
-      where: {
-        title: {
-          [Op.like]: `%${q}%`,
-        },
-      },
+      limit: limit,
+      ...where,
     });
     const brands: Brand[] = await Brand.findAll({
       offset: startingOffset,
-      limit: 20,
-      where: {
-        title: {
-          [Op.like]: `%${q}%`,
-        },
-      },
+      limit: limit,
+      ...where,
     });
     response.status(200).json({
       error: false,
@@ -70,6 +80,7 @@ export const getSearchProductsAndBrands: RequestHandler = async (
       data: {
         products: products,
         brands: brands,
+        pagination: pagination,
       },
     });
   } catch (e) {
