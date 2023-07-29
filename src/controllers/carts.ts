@@ -8,6 +8,8 @@ import * as cartServices from "../services/cart";
 import * as productServices from "../services/product";
 import * as cartProductServices from "../services/cart-product";
 import { CART_STATUS } from "../enums/status-enums";
+import { ProductImages } from "../models/Product-Images";
+import { Category } from "../models/Category";
 
 export const postCart: RequestHandler = async (
   request: Request,
@@ -132,7 +134,12 @@ export const getCart: RequestHandler = async (
     const user: User = request.user as User;
     const cart = await user.$get("carts", {
       where: { status: CART_STATUS.IN_PROGRESS },
-      include: [Product],
+      include: [
+        {
+          model: Product,
+          include: [ProductImages, Category],
+        },
+      ],
     });
     response.status(200).json({
       error: false,
