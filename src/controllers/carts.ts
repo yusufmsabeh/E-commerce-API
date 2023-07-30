@@ -34,7 +34,7 @@ export const postCart: RequestHandler = async (
     if (!hasProduct) {
       await cart.$add("product", product, { through: { quantity: quantity } });
     } else {
-      await cart.$set("products", product, {
+      await cart.$add("products", product, {
         through: { quantity: Sequelize.literal(`quantity+${quantity}`) },
       });
     }
