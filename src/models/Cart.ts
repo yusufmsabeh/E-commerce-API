@@ -7,12 +7,12 @@ import {
   Model,
   Table,
 } from "sequelize-typescript";
+import * as cartServices from "../services/cart";
 import { User } from "./User";
 import { Product } from "./Product";
 import { CartProduct } from "./Cart-Product";
 import { Order } from "./Order";
-import getConnection from "../database/config";
-import {CART_STATUS} from "../enums/status-enums";
+import { CART_STATUS } from "../enums/status-enums";
 
 @Table({
   timestamps: false,
@@ -50,33 +50,4 @@ export class Cart extends Model {
     products!: Product[];
   @HasOne(() => Order, "cart_id")
     order!: Order;
-
-  public async updateTotalCost() {
-    const connection = getConnection();
-    const result: any = await CartProduct.findAll({
-      attributes: [
-        [connection.literal("quantity*products.price"), "totalPrice"],
-      ],
-      include: [
-        {
-          model: Product,
-          attributes: [],
-        },
-      ],
-
-      where: {
-        cart_id: this.id,
-      },
-      raw: true,
-    });
-
-    this.total_cost=0;
-    if (result.length>0) {
-      const totalPrice = result[0].totalPrice ?? 0;
-      const cartDiscount: number = this.discount / 100;
-      const tax = this.tax;
-      this.total_cost = totalPrice - totalPrice * cartDiscount + tax;
-    }
-    await this.save();
-  }
 }

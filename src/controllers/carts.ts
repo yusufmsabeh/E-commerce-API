@@ -113,6 +113,7 @@ export const deleteCart = async (
     if (!productInCart)
       return next(new GeneralError("product does not exist in your cart", 404));
     await productInCart.destroy();
+    await cartServices.updateTotalPrice(cart);
     response.status(200).json({
       error: false,
       status: 204,
