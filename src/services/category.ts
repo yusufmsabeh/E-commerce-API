@@ -9,3 +9,7 @@ export const getCategories = async (
 export const getCount = async (options: FindOptions = {}): Promise<number> => {
   return await Category.count(options);
 };
+
+export const getCategoryById = async (categoryId:string):Promise<Category|null>=>{
+  return await Category.findByPk(categoryId);
+};
