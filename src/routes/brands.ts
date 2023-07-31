@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { getBrands } from "../controllers/brands";
+import {getBrandById, getBrands} from "../controllers/brands";
 
 export const router = Router();
 router.get("/", getBrands);
+router.get("/:id", getBrandById);
