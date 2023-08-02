@@ -6,7 +6,10 @@ import { postOrdersValidator } from "../validators/post-orders-validator";
 import * as cartServices from "../services/cart";
 import * as orderServices from "../services/order";
 import * as cartProductServices from "../services/cart-product";
+import * as addressServices from "../services/address";
 import { CART_STATUS, ORDER_STATUS } from "../enums/status-enums";
+import { Address } from "../models/Address";
+import exp from "constants";
 
 export const postOrders: RequestHandler = async (
   request: Request,
@@ -15,38 +18,57 @@ export const postOrders: RequestHandler = async (
 ) => {
   try {
     postOrdersValidator(request.body);
-    const { transactionId, cartId, email } = request.body;
+    const { transactionId, cartId, addressId } = request.body;
     const user = request.user as User;
-    let order;
-    const cart = await cartServices.getActiveCartById(cartId);
-    if (!cart) return next(new GeneralError("Cart does not exist", 404));
-    const productsInCart = await cartProductServices.getCartProducts({
-      where: { cart_id: cartId },
+    if (!user) return next();
+    const hasAddress = await user.$has("address", addressId);
+    if (!hasAddress)
+      return next(new GeneralError("There is now address with this ID", 404));
+    await checkCart(cartId);
+    const order = await user.$create("order", {
+      email: user.email,
+      status: ORDER_STATUS.ACTIVE,
+      cart_id: cartId,
+      transaction_id: transactionId,
+      address_id: addressId,
     });
-    if (productsInCart.length < 1)
-      return next(new GeneralError("Your cart is Empty", 422));
-    cart.status = CART_STATUS.MOVE_TO_ORDERS;
-    await cart.save();
-    if (user) {
-      order = await user.$create("order", {
-        email: user.email,
-        status: ORDER_STATUS.ACTIVE,
-        cart_id: cartId,
-        transaction_id: transactionId,
-      });
-    } else if (email) {
-      order = await orderServices.createOrder({
-        email: email,
-        status: ORDER_STATUS.ACTIVE,
-        user_id: null,
-        cart_id: cartId,
-        transaction_id: transactionId,
-      });
-    } else {
+
+    response.status(201).json({
+      error: false,
+      status: 201,
+      data: {
+        message: "Order created successfully",
+        order: order,
+      },
+    });
+  } catch (e) {
+    next(e);
+  }
+};
+
+export const postOrderWithoutUser: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
+    const { transactionId, cartId, addressId, email } = request.body;
+    if (!email)
       return next(
         new GeneralError("Email address can not be null or login please", 422)
       );
-    }
+    const address = await addressServices.getAddressById(addressId);
+    if (!address)
+      return next(new GeneralError("There is no address with this ID", 404));
+    await checkCart(cartId);
+    const order = await orderServices.createOrder({
+      email: email,
+      status: ORDER_STATUS.ACTIVE,
+      user_id: null,
+      cart_id: cartId,
+      transaction_id: transactionId,
+      address_id: addressId,
+    });
     response.status(201).json({
       error: false,
       status: 201,
@@ -67,7 +89,7 @@ export const getOrders: RequestHandler = async (
 ) => {
   try {
     const user: User = request.user as User;
-    const orders = await user.$get("orders");
+    const orders = await user.$get("orders", { include: [Address] });
     response.status(200).json({
       error: false,
       status: 200,
@@ -110,4 +132,16 @@ export const getOrderById: RequestHandler = async (
   } catch (e) {
     next(e);
   }
+};
+
+const checkCart = async (cartId: string) => {
+  const cart = await cartServices.getActiveCartById(cartId);
+  if (!cart) throw new GeneralError("Cart does not exist", 404);
+  const productsInCart = await cartProductServices.getCartProducts({
+    where: { cart_id: cartId },
+  });
+  if (productsInCart.length < 1)
+    throw new GeneralError("Your cart is Empty", 422);
+  cart.status = CART_STATUS.MOVE_TO_ORDERS;
+  await cart.save();
 };

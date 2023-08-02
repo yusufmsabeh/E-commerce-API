@@ -1,12 +1,13 @@
 import {
   BelongsTo,
   Column,
-  DataType,
+  DataType, HasOne,
   Model,
   Table,
 } from "sequelize-typescript";
 import { User } from "./User";
 import { Cart } from "./Cart";
+import {Address} from "./Address";
 
 @Table({
   timestamps: false,
@@ -32,4 +33,6 @@ export class Order extends Model {
     user!: User;
   @BelongsTo(() => Cart, "cart_id")
     cart!: Cart;
+  @BelongsTo(()=>Address,"address_id")
+    address!:Address;
 }
