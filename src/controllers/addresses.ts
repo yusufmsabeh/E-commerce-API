@@ -1,49 +1,59 @@
-import {RequestHandler, Request,Response, NextFunction} from "express";
-import {postAddressValidator} from "../validators/post-address-validator";
-import {User} from "../models/User";
-import {Address} from "../models/Address";
+import { RequestHandler, Request, Response, NextFunction } from "express";
+import { postAddressValidator } from "../validators/post-address-validator";
+import { User } from "../models/User";
+import { Address } from "../models/Address";
+import * as addressServices from "../services/address";
 
-export const postAddress:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
+export const postAddress: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
     postAddressValidator(request.body);
-    const {fullName,mobile,street,city,state,pinCode} = request.body;
+    const { firstName, lastName, countryCode, mobile, location } = request.body;
     const user = request.user as User;
-
-    const address =  await user.$create<Address>("address",{
-      full_name:fullName,
-      mobile:mobile,
-      street:street,
-      city:city,
-      state:state,
-      pin_code:pinCode
-    });
-
+    const addressValues = {
+      first_name: firstName,
+      last_name: lastName,
+      country_code: countryCode,
+      mobile: mobile,
+      location: location,
+    };
+    let address ;
+    if (user)
+      address = await user.$create<Address>("address", addressValues);
+    else
+      address = await addressServices.createAddress(addressValues);
     return response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        message:"Address Add successfully",
-        address:address
-      }
+      error: false,
+      status: 200,
+      data: {
+        message: "Address Add successfully",
+        address: address,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
   }
 };
 
-export const getAddresses:RequestHandler = async (request:Request,response:Response,next:NextFunction)=>{
-  try{
+export const getAddresses: RequestHandler = async (
+  request: Request,
+  response: Response,
+  next: NextFunction
+) => {
+  try {
     const user = request.user as User;
     const addresses = await user.$get("addresses");
     response.status(200).json({
-      error:false,
-      status:200,
-      data:{
-        addresses:addresses
-      }
+      error: false,
+      status: 200,
+      data: {
+        addresses: addresses,
+      },
     });
-  }catch (e) {
+  } catch (e) {
     next(e);
-
   }
 };
