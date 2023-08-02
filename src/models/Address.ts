@@ -13,12 +13,22 @@ import { User } from "./User";
 })
 export class Address extends Model {
   @Column({
-    type: DataType.TEXT,
+    type: DataType.STRING,
     allowNull: false,
   })
-    full_name!: string;
+    first_name!: string;
   @Column({
-    type: DataType.TEXT,
+    type: DataType.STRING,
+    allowNull: false,
+  })
+    last_name!: string;
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+    country_code!: string;
+  @Column({
+    type: DataType.STRING,
     allowNull: false,
   })
     mobile!: string;
@@ -26,23 +36,8 @@ export class Address extends Model {
     type: DataType.STRING,
     allowNull: false,
   })
-    city!: string;
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-    state!: string;
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-    street!: string;
+    location!: string;
 
-  @Column({
-    type: DataType.STRING,
-    allowNull: false,
-  })
-    pin_code!: string;
   @BelongsTo(() => User, "user_id")
     user!: User;
 }
