@@ -4,6 +4,7 @@ import { ValidationError } from "../errors/validation";
 const postOrdersSchema: Joi.ObjectSchema = Joi.object({
   cartId: Joi.string().required(),
   transactionId: Joi.string().required(),
+  addressId:Joi.string().required()
 });
 
 export const postOrdersValidator = (postOrderInput: any) => {

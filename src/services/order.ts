@@ -12,4 +12,5 @@ interface OrderAttributes {
     user_id: string|null,
     cart_id: string,
     transaction_id: string,
+    address_id:string
 }
