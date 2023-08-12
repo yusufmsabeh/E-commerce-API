@@ -18,6 +18,7 @@ import cors from "cors";
 dotenv.config();
 const app = express();
 const PORT = parseInt(process.env.PORT ?? "3000");
+const HOST = process.env.HOST ?? "localhost";
 app.use(passport.initialize());
 passportConfig();
 const upload = multer();
@@ -48,7 +49,7 @@ getConnection()
       getConnection()
         .sync({ alter: true })
         .then(() => {
-          app.listen(PORT, () => {
+          app.listen(PORT,HOST, () => {
             console.log("server is listening on port ", PORT);
           });
         });
