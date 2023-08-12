@@ -30,8 +30,8 @@ app.use("/products", productsRouter);
 app.use("/brands", brandsRouter);
 app.use("/carts", cartsRouter);
 app.use("/favourites", favouritesRouter);
-app.use("/orders",ordersRouter);
-app.use("/addresses",addressesRouter);
+app.use("/orders", ordersRouter);
+app.use("/addresses", addressesRouter);
 app.use(errorHandler);
 process.on("unhandledRejection", (reason: Error | any) => {
   console.log("unhandled Rejection: ", reason.message | reason);
@@ -41,15 +41,19 @@ process.on("uncaughtException", (error: Error) => {
   console.log("uncaught Exception", error.message);
   throw error;
 });
-getConnection().authenticate().then(
-  () => {
-    getConnection().sync({alter:true}).then(() => {
-      app.listen(PORT, "0.0.0.0", () => {
-        console.log("server is listening on port ", PORT);
-      });
-    });
-  },
-  (error) => {
-    console.log(error);
-  }
-);
+getConnection()
+  .authenticate()
+  .then(
+    () => {
+      getConnection()
+        .sync({ alter: true })
+        .then(() => {
+          app.listen(PORT, () => {
+            console.log("server is listening on port ", PORT);
+          });
+        });
+    },
+    (error) => {
+      console.log(error);
+    }
+  );
