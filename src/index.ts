@@ -49,7 +49,7 @@ getConnection()
       getConnection()
         .sync({ alter: true })
         .then(() => {
-          app.listen(PORT,HOST, () => {
+          app.listen(PORT, () => {
             console.log("server is listening on port ", PORT);
           });
         });
