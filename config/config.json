@@ -1,9 +1,9 @@
 {
   "development": {
-    "username": "usernameHere",
-    "password": "passwordHere",
-    "database": "databaseNameHere",
-    "host": "hostHere",
+    "username": "avnadmin",
+    "password": "AVNS_ufNgziv73D-9fVm5sZT",
+    "database": "defaultdb",
+    "host": "mysql-335d053c-yusuf-1e3d.b.aivencloud.com",
     "dialect": "mysql",
     "port": 24951
   },
