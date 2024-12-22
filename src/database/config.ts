@@ -1,6 +1,6 @@
 import { Sequelize } from "sequelize-typescript";
 import { Dialect } from "sequelize";
-import { development } from "../../config/config.json";
+import { development as databaseConfig } from "../../config/config.json";
 import { Test } from "../models/Test";
 import { User } from "../models/User";
 import { Address } from "../models/Address";
@@ -14,16 +14,19 @@ import { Variant } from "../models/Variant";
 import { ProductVariant } from "../models/Product-Variant";
 import { Category } from "../models/Category";
 import { Brand } from "../models/Brand";
+import * as fs from "fs";
 
-let connection:Sequelize ;
-const getConnection =()=>{
-  if (!connection){
-    connection= new Sequelize({
-      dialect: development.dialect as Dialect,
-      database: development.database,
-      host: development.host,
-      password: development.password,
-      username: development.username,
+let connection: Sequelize;
+const getConnection = () => {
+  if (!connection) {
+    connection = new Sequelize({
+      dialect: databaseConfig.dialect as Dialect,
+      database: databaseConfig.database,
+      host: databaseConfig.host,
+      password: databaseConfig.password,
+      username: databaseConfig.username,
+      ssl: true,
+      port: Number(databaseConfig.port),
       logging: console.log,
       models: [
         Test,

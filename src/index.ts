@@ -47,9 +47,9 @@ getConnection()
   .then(
     () => {
       getConnection()
-        .sync({ alter: true })
+        .sync()
         .then(() => {
-          app.listen(PORT,HOST, () => {
+          app.listen(PORT, HOST, () => {
             console.log("server is listening on port ", PORT);
           });
         });

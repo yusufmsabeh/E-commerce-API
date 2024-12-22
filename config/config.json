@@ -1,17 +1,18 @@
 {
   "development": {
-    "username": "uae0cuqwr0kzvrui",
-    "password": "VlO1MoB7xo6GVemljCpb",
-    "database": "btsadjm7bmqkfq1t2snc",
-    "host": "btsadjm7bmqkfq1t2snc-mysql.services.clever-cloud.com",
+    "username": "avnadmin",
+    "password": "AVNS_ufNgziv73D-9fVm5sZT",
+    "database": "defaultdb",
+    "host": "mysql-335d053c-yusuf-1e3d.b.aivencloud.com",
     "dialect": "mysql",
-    "port": "3306"
+    "port": 24951
   },
+
   "test": {
     "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "password": "root",
+    "database": "e_commerce_api",
+    "host": "localhost",
     "dialect": "mysql"
   },
   "production": {
