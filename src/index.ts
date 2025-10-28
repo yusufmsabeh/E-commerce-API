@@ -50,7 +50,7 @@ getConnection()
         .sync()
         .then(() => {
           app.listen(PORT, HOST, () => {
-            console.log("server is listening on port ", PORT);
+            console.log("server is listening on port ", PORT," HOST ",HOST);
           });
         });
     },
