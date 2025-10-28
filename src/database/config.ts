@@ -20,13 +20,13 @@ let connection: Sequelize;
 const getConnection = () => {
   if (!connection) {
     connection = new Sequelize({
-      dialect: databaseConfig.dialect as Dialect,
-      database: databaseConfig.database,
-      host: databaseConfig.host,
-      password: databaseConfig.password,
-      username: databaseConfig.username,
+      dialect: "postgres",
+      database: process.env.DATABASE_NAME,
+      host:process.env.DATABASE_HOST,
+      password: process.env.DATABASE_PASSWORD,
+      username: process.env.DATABASE_USERNAME,
       ssl: true,
-      port: Number(databaseConfig.port),
+      port: Number(process.env.DATABASE_PORT),
       logging: console.log,
       models: [
         Test,

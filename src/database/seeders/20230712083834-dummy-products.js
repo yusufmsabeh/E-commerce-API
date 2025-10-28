@@ -6,51 +6,61 @@ module.exports = {
     await queryInterface.bulkDelete("brands", null, {});
     const brandsId = await queryInterface.bulkInsert("brands", [
       {
+        id:1,
         title: "Zara",
         image_url:
           "https://i.ibb.co/0txMNtp/Zara-Logo-1zara.png",
       },
       {
+        id:2,
         title: "D&G",
         image_url:
           "https://i.ibb.co/RDpQQq8/Dolce-Gabbana-1.png",
       },
       {
+        id:3,
         title: "H&M",
         image_url:
           "https://i.ibb.co/bgXD128/H-M-Logo-1.png",
       },
       {
+        id:4,
         title: "chanel",
         image_url:
           "https://i.ibb.co/DY7pNP5/Chanel-logo-interlocking-cs-1.png",
       },
       {
+        id:5,
         title: "prada",
         image_url:
           "https://i.ibb.co/yR10cfg/Prada-Logo-1.png",
       },
       {
+        id:6,
         title: "biba",
         image_url:
           "https://i.ibb.co/P96v6Ps/logo-1.png",
       },
       {
+        id:7,
         title: "YourSkinLove",
         image_url:
           "https://cdn.shopify.com/s/files/1/0555/2645/7543/files/Copy_of_LOVE_YOUR_SKIN_Logo_1_1500x.png",
       },
       {
+        id:8,
         title: "GlowUpSerums",
         image_url:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLWoIP-0rvW2c86hNaluc4gXCMDou8ijHZCV223ANccNU83IXvxlxvaqpywIWVv_Aw&usqp=CAU",
       },
       {
+        id:9,
         title: "FreshFace",
         image_url:
           "https://static1.squarespace.com/static/61edd3a458235b048d827a47/t/628db1b02e14a049cd5a8557/1653576475625/FF+Logo+Updated+smile+transparent.png",
       },
       {
+        id:10,
         title: "NaturalNurture",
         image_url:
           "https://www.nicepng.com/png/detail/362-3622944_legal-agreement-nature-nurture-stokes-county-nc.png",
@@ -59,39 +69,48 @@ module.exports = {
     await queryInterface.bulkDelete("categories", null, {});
     const categoriesId = await queryInterface.bulkInsert("categories", [
       {
+        id:1,
         title: "Clothes",
       },
       {
+        id:2,
         title: "Personal Care",
       },
       {
+        id:3,
         title: "Handbags",
       },
       {
+        id:4,
         title: "Apparels",
       },
       {
+        id:5,
         title: "Watches",
       },
       {
+        id:6,
         title: "Eye Wear",
       },
       {
+        id:7,
         title: "Jewellery",
       },
       {
+        id:8,
         title: "Skincare",
       },
     ]);
     await queryInterface.bulkDelete("products", null, {});
     const productsId = await queryInterface.bulkInsert("products", [
       {
+        id: 1,
         title: "Vintage Denim Jacket",
         description:
           "A classic denim jacket with a distressed finish and retro design.",
         price: 59.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 1,
+        category_id: 1,
         rate: 4.5,
         isLimited: false,
         discount: 0,
@@ -100,12 +119,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 2,
         title: "Striped Cotton T-Shirt",
         description:
           "A comfortable cotton t-shirt with a stylish striped pattern.",
         price: 19.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 2,
         rate: 4.5,
         isLimited: false,
         discount: 0,
@@ -114,12 +134,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 3,
         title: "Leather Biker Jacket",
         description:
           "A sleek and edgy leather jacket with a biker-inspired design.",
         price: 129.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 3,
         rate: 4.7,
         isLimited: false,
         discount: 0,
@@ -128,11 +149,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 4,
         title: "Floral Print Sundress",
         description: "A charming sundress adorned with a vibrant floral print.",
         price: 39.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 4,
         rate: 4.7,
         isLimited: false,
         discount: 0,
@@ -141,11 +163,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 5,
         title: "Plaid Wool Scarf",
         description: "A cozy wool scarf featuring a classic plaid pattern.",
         price: 24.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 5,
+        category_id: 5,
         rate: 5,
         isLimited: false,
         discount: 0,
@@ -154,12 +177,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 6,
         title: "Cotton Cargo Pants",
         description:
           "Durable and functional cargo pants made from soft cotton fabric.",
         price: 49.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 6,
+        category_id: 6,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -168,12 +192,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 7,
         title: "Embroidered Boho Blouse",
         description:
           "A bohemian-inspired blouse with intricate embroidery details.",
         price: 34.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 7,
+        category_id: 7,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -182,12 +207,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 8,
         title: "Knit Beanie Hat",
         description:
           "A warm and stylish beanie hat made from soft knit material.",
         price: 14.99,
-        brand_id: brandsId,
-        category_id: categoriesId,
+        brand_id: 8,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -196,12 +222,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 9,
         title: "Linen Button-Up Shirt",
         description:
           "A lightweight and breathable linen shirt with a button-up front.",
         price: 29.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 9,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -210,11 +237,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 10,
         title: "Athletic Jogging Shorts",
         description: "Comfortable and sporty shorts for an active lifestyle.",
         price: 19.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 9,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -223,11 +251,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 11,
         title: "Suede Ankle Boots",
         description: "Stylish ankle boots made from luxurious suede material.",
         price: 79.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 5,
+        category_id: 7,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -236,12 +265,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 12,
         title: "Graphic Print Hoodie",
         description:
           "A trendy hoodie featuring a cool graphic print on the front.",
         price: 39.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 8,
+        category_id: 8,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -250,11 +280,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 13,
         title: "Ruffled Maxi Dress",
         description: "An elegant maxi dress with feminine ruffle details.",
         price: 59.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 10,
+        category_id: 3,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -263,12 +294,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 14,
         title: "Classic Aviator Sunglasses",
         description:
           "Timeless aviator sunglasses with a metal frame and UV protection.",
         price: 19.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 9,
+        category_id: 7,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -277,11 +309,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 15,
         title: "Striped Knit Sweater",
         description: "A cozy knit sweater with a playful striped pattern.",
         price: 49.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 10,
+        category_id: 2,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -290,11 +323,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 16,
         title: "Denim Mini Skirt",
         description: "A versatile mini skirt made from durable denim fabric.",
         price: 29.99,
-        brand_id: brandsId + 1,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 2,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -303,12 +337,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 17,
         title: "Polka Dot Blouse",
         description:
           "A charming blouse adorned with a classic polka dot pattern.",
         price: 24.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 7,
+        category_id: 8,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -317,12 +352,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 18,
         title: "Leather Crossbody Bag",
         description:
           "A stylish and functional crossbody bag made from genuine leather.",
         price: 89.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 7,
+        category_id: 8,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -331,12 +367,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 19,
         title: "Cargo Shorts",
         description:
           "Casual and practical shorts with multiple pockets for storage.",
         price: 29.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 3,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -345,12 +382,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 20,
         title: "Tropical Print Swim Trunks",
         description:
           "Vibrant swim trunks featuring a tropical print for a beach-ready look.",
         price: 34.99,
-        brand_id: brandsId + 5,
-        category_id: categoriesId,
+        brand_id: 5,
+        category_id: 4,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -359,12 +397,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 21,
         title: "Wool Blend Peacoat",
         description:
           "A timeless peacoat crafted from a warm wool blend fabric.",
         price: 89.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 6,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -373,12 +412,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 22,
         title: "Printed Leggings",
         description:
           "Comfortable and eye-catching leggings with a unique printed design.",
         price: 19.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 22,
@@ -387,12 +427,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 23,
         title: "Cotton V-Neck Sweater",
         description:
           "A classic V-neck sweater made from soft and breathable cotton.",
         price: 39.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 3,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -401,12 +442,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 24,
         title: "Embroidered Denim Shorts",
         description:
           "Stylish denim shorts featuring intricate embroidery details.",
         price: 34.99,
-        brand_id: brandsId + 2,
-        category_id: categoriesId,
+        brand_id: 2,
+        category_id: 7,
         rate: 3,
         isLimited: true,
         discount: 2,
@@ -415,12 +457,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 25,
         title: "Knit Infinity Scarf",
         description:
           "A cozy and versatile infinity scarf made from warm knit fabric.",
         price: 19.99,
-        brand_id: brandsId + 5,
-        category_id: categoriesId,
+        brand_id: 5,
+        category_id: 3,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -429,11 +472,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 26,
         title: "Lace Trim Camisole",
         description: "A delicate camisole with lace trim for a feminine touch.",
         price: 24.99,
-        brand_id: brandsId + 5,
-        category_id: categoriesId,
+        brand_id: 5,
+        category_id: 6,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -442,12 +486,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 27,
         title: "Quilted Puffer Jacket",
         description:
           "A lightweight puffer jacket with a quilted design for added warmth.",
         price: 59.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 3,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -456,12 +501,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 28,
         title: "Striped Linen Shorts",
         description:
           "Casual and breathable shorts made from lightweight linen fabric.",
         price: 29.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 8,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -470,11 +516,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 29,
         title: "Faux Leather Leggings",
         description: "Sleek and edgy leggings made from faux leather material.",
         price: 29.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 6,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -483,12 +530,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 30,
         title: "Cotton Blend Cardigan",
         description:
           "A cozy and versatile cardigan made from a soft cotton blend.",
         price: 44.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 7,
         rate: 3,
         isLimited: true,
         discount: 5,
@@ -497,12 +545,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 31,
         title: "Printed Silk Scarf",
         description:
           "A luxurious silk scarf adorned with a vibrant printed design.",
         price: 49.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -511,12 +560,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 32,
         title: "Hooded Parka Jacket",
         description:
           "A stylish parka jacket with a cozy hood and faux fur trim.",
         price: 100,
-        brand_id: brandsId + 3,
-        category_id: categoriesId,
+        brand_id: 3,
+        category_id: 4,
         rate: 3,
         isLimited: true,
         discount: 20,
@@ -525,12 +575,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 33,
         title: "Ruffled Blouse",
         description:
           "A chic blouse with delicate ruffle details for an elegant look.",
         price: 39.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 8,
         rate: 3,
         isLimited: true,
         discount: 0,
@@ -539,12 +590,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 34,
         title: "Denim Overalls",
         description:
           "Classic denim overalls with adjustable straps and multiple pockets.",
         price: 54.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 4,
         rate: 3,
         isLimited: false,
         discount: 0,
@@ -553,11 +605,12 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 35,
         title: "Knit Sweater Dress",
         description: "A cozy sweater dress perfect for colder weather.",
         price: 49.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 3,
         rate: 3,
         isLimited: false,
         discount: 20,
@@ -566,12 +619,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 36,
         title: "Tie-Dye T-Shirt",
         description:
           "A trendy tie-dye t-shirt with a relaxed and colorful design.",
         price: 24.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 7,
         rate: 3,
         isLimited: false,
         discount: 15,
@@ -580,12 +634,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 37,
         title: "Wide-Leg Linen Pants",
         description:
           "Flowy and comfortable linen pants with a wide-leg silhouette.",
         price: 44.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId,
+        brand_id: 4,
+        category_id: 1,
         rate: 3,
         isLimited: false,
         discount: 15,
@@ -594,12 +649,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 38,
         title: "Hydrating Facial Cleanser",
         description:
           "A gentle and nourishing facial cleanser that effectively removes dirt, makeup, and impurities without stripping the skin's natural moisture.",
         price: 24.99,
-        brand_id: brandsId + 6,
-        category_id: categoriesId + 7,
+        brand_id: 6,
+        category_id: 7,
         rate: 4.8,
         isLimited: false,
         discount: 0,
@@ -607,14 +663,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 39,
         title: "Revitalizing Vitamin C Serum",
         description:
           "An antioxidant-rich serum infused with Vitamin C to brighten the complexion, reduce the appearance of fine lines, and promote a more radiant skin tone.",
         price: 36.99,
-        brand_id: brandsId + 7,
-        category_id: categoriesId + 7,
+        brand_id: 7,
+        category_id: 7,
         rate: 4.9,
         isLimited: true,
         discount: 10,
@@ -622,14 +678,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 40,
         title: "Moisture-Boosting Hyaluronic Acid Cream",
         description:
           "An intensely hydrating cream enriched with hyaluronic acid to lock in moisture, plump the skin, and improve overall skin texture and elasticity.",
         price: 29.99,
-        brand_id: brandsId + 7,
-        category_id: categoriesId + 7,
+        brand_id: 7,
+        category_id: 7,
         rate: 4.7,
         isLimited: false,
         discount: 0,
@@ -638,12 +694,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 41,
         title: "Exfoliating AHA/BHA Facial Mask",
         description:
           "A potent yet gentle facial mask featuring a blend of AHA and BHA acids to exfoliate, unclog pores, and promote a smoother, more even skin tone.",
         price: 28.49,
-        brand_id: brandsId + 6,
-        category_id: categoriesId + 7,
+        brand_id: 6,
+        category_id: 7,
         rate: 4.5,
         isLimited: false,
         discount: 0,
@@ -652,12 +709,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 42,
         title: "Soothing Chamomile Eye Cream",
         description:
           "A calming eye cream formulated with chamomile extract to reduce puffiness, dark circles, and signs of fatigue, leaving the delicate eye area refreshed and rejuvenated.",
         price: 19.99,
-        brand_id: brandsId + 7,
-        category_id: categoriesId + 7,
+        brand_id: 7,
+        category_id: 7,
         rate: 4.6,
         isLimited: true,
         discount: 20,
@@ -665,14 +723,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 43,
         title: "Hydrating Coconut Body Lotion",
         description:
           "Nourishing body lotion enriched with coconut oil for deep hydration and smooth skin.",
         price: 19.99,
-        brand_id: brandsId + 9,
-        category_id: categoriesId + 1,
+        brand_id: 9,
+        category_id: 1,
         rate: 4.5,
         isLimited: false,
         discount: 10,
@@ -680,14 +738,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 44,
         title: "Refreshing Cucumber Facial Mist",
         description:
           "Revitalizing facial mist infused with cucumber extract to hydrate and refresh the skin.",
         price: 12.99,
-        brand_id: brandsId + 8,
-        category_id: categoriesId + 1,
+        brand_id: 8,
+        category_id: 1,
         rate: 4.2,
         isLimited: true,
         discount: 2,
@@ -695,14 +753,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 45,
         title: "Soothing Lavender Bath Salts",
         description:
           "Relaxing bath salts with lavender essential oil for a calming and soothing bathing experience.",
         price: 8.49,
-        brand_id: brandsId + 8,
-        category_id: categoriesId + 1,
+        brand_id: 8,
+        category_id: 1,
         rate: 4.7,
         isLimited: false,
         discount: 0,
@@ -710,14 +768,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 46,
         title: "Gentle Aloe Vera Shampoo",
         description:
           "Mild shampoo enriched with aloe vera to cleanse and nourish all hair types.",
         price: 15.95,
-        brand_id: brandsId + 9,
-        category_id: categoriesId + 1,
+        brand_id: 9,
+        category_id: 1,
         rate: 4.3,
         isLimited: false,
         discount: 5,
@@ -725,14 +783,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 47,
         title: "Revitalizing Mint Toothpaste",
         description:
           "Mint-flavored toothpaste that freshens breath and promotes healthy teeth and gums.",
         price: 6.99,
-        brand_id: brandsId + 8,
-        category_id: categoriesId + 1,
+        brand_id: 8,
+        category_id: 1,
         rate: 4.8,
         isLimited: true,
         discount: 1.5,
@@ -741,12 +799,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 48,
         title: "Elegant Leather Tote",
         description:
           "A sophisticated and spacious leather tote bag, perfect for both work and casual outings.",
         price: 129.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 2,
+        brand_id: 3,
+        category_id: 2,
         rate: 4.8,
         isLimited: false,
         discount: 10,
@@ -754,14 +813,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 49,
         title: "Chic Crossbody Clutch",
         description:
           "A stylish crossbody clutch made from high-quality faux suede material, ideal for evening events.",
         price: 59.95,
-        brand_id: brandsId + 1,
-        category_id: categoriesId + 2,
+        brand_id: 1,
+        category_id: 2,
         rate: 4.5,
         isLimited: true,
         discount: 25,
@@ -769,14 +828,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 50,
         title: "Vintage Inspired Backpack",
         description:
           "A trendy backpack with a vintage touch, crafted from durable canvas and genuine leather trimmings.",
         price: 79.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 2,
+        brand_id: 4,
+        category_id: 2,
         rate: 4.2,
         isLimited: false,
         discount: 5,
@@ -785,12 +844,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 51,
         title: "Elegant Floral Maxi Dress",
         description:
           "A beautiful and flowing maxi dress adorned with elegant floral patterns.",
         price: 89.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId + 3,
+        brand_id: 3,
+        category_id: 3,
         rate: 4.5,
         isLimited: true,
         discount: 25,
@@ -798,14 +858,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 52,
         title: "Classic Leather Jacket",
         description:
           "Timeless and versatile leather jacket, perfect for any season.",
         price: 159.99,
-        brand_id: brandsId + 6,
-        category_id: categoriesId + 3,
+        brand_id: 6,
+        category_id: 3,
         rate: 4.8,
         isLimited: false,
         discount: 50,
@@ -813,14 +873,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 53,
         title: "Cozy Knit Sweater",
         description:
           "Stay warm and stylish with this soft and cozy knit sweater.",
         price: 59.99,
-        brand_id: brandsId + 3,
-        category_id: categoriesId + 3,
+        brand_id: 3,
+        category_id: 3,
         rate: 4.2,
         isLimited: false,
         discount: 10,
@@ -828,14 +888,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 54,
         title: "Classic Chronograph Timepiece",
         description:
           "A timeless and elegant chronograph watch with a stainless steel case and genuine leather strap.",
         price: 129.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 4,
+        brand_id: 9,
+        category_id: 4,
         rate: 4.5,
         isLimited: true,
         discount: 20,
@@ -843,14 +903,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 55,
         title: "Sports Diver's Watch",
         description:
           "A rugged and water-resistant diver's watch designed for adventurous souls. Features a durable rubber strap and luminous hands.",
         price: 89.95,
-        brand_id: brandsId + 2,
-        category_id: categoriesId + 4,
+        brand_id: 2,
+        category_id: 4,
         rate: 4.2,
         isLimited: false,
         discount: 10,
@@ -858,14 +918,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 56,
         title: "Smart Fitness Tracker Watch",
         description:
           "An intelligent fitness tracker watch with heart rate monitoring, GPS, and smartphone connectivity. Helps you stay on top of your fitness goals.",
         price: 199.99,
-        brand_id: brandsId + 4,
-        category_id: categoriesId + 4,
+        brand_id: 4,
+        category_id: 4,
         rate: 4.8,
         isLimited: false,
         discount: 0,
@@ -874,12 +934,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 57,
         title: "Sleek Aviator Sunglasses",
         description:
           "Classic aviator sunglasses with a modern touch, offering both style and protection.",
         price: 89.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 5,
+        brand_id: 6,
+        category_id: 5,
         rate: 4.5,
         isLimited: false,
         discount: 10,
@@ -887,14 +948,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 58,
         title: "Blue Light Blocking Glasses",
         description:
           "Stylish and effective blue light blocking glasses, designed to reduce eye strain from digital screens.",
         price: 34.95,
-        brand_id: brandsId,
-        category_id: categoriesId + 5,
+        brand_id: 3,
+        category_id: 5,
         rate: 4.8,
         isLimited: true,
         discount: 5,
@@ -902,14 +963,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 59,
         title: "Sporty Polarized Sunglasses",
         description:
           "Polarized sunglasses perfect for outdoor activities, providing enhanced clarity and UV protection.",
         price: 59.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 5,
+        brand_id: 5,
+        category_id: 5,
         rate: 4.2,
         isLimited: false,
         discount: 25,
@@ -918,12 +979,13 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
+        id: 60,
         title: "Elegant Diamond Pendant",
         description:
           "A stunning diamond pendant crafted in 18K white gold, perfect for adding a touch of sophistication to any outfit.",
         price: 899.99,
-        brand_id: brandsId,
-        category_id: categoriesId + 6,
+        brand_id: 8,
+        category_id: 6,
         rate: 4.5,
         isLimited: true,
         discount: 50,
@@ -931,14 +993,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 61,
         title: "Sapphire Halo Stud Earrings",
         description:
           "Gorgeous sapphire stud earrings surrounded by a halo of sparkling diamonds, set in 14K yellow gold.",
         price: 349.95,
-        brand_id: brandsId + 6,
-        category_id: categoriesId + 6,
+        brand_id: 6,
+        category_id: 6,
         rate: 4.8,
         isLimited: false,
         discount: 20,
@@ -946,14 +1008,14 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
       },
-
       {
+        id: 62,
         title: "Rose Gold Tennis Bracelet",
         description:
           "A classic and timeless tennis bracelet featuring dazzling round-cut diamonds, elegantly set in 14K rose gold.",
         price: 699.0,
-        brand_id: brandsId + 5,
-        category_id: categoriesId + 6,
+        brand_id: 5,
+        category_id: 6,
         rate: 4.9,
         isLimited: true,
         discount: 100,
@@ -1027,7 +1089,7 @@ module.exports = {
       "https://m.media-amazon.com/images/I/61mTiOHCsOS._AC_UY1100_.jpg",
       "https://m.media-amazon.com/images/I/71rCD94zfjL._AC_UY1000_.jpg",
     ];
-    for (let i = 0; i < 62; i++) {
+    for (let i = 1; i < 63; i++) {
       await queryInterface.bulkInsert("product_images", [
         {
           image_url:

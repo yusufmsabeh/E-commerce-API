@@ -1,11 +1,11 @@
 {
   "development": {
-    "username": "avnadmin",
-    "password": "AVNS_ufNgziv73D-9fVm5sZT",
-    "database": "defaultdb",
-    "host": "mysql-335d053c-yusuf-1e3d.b.aivencloud.com",
-    "dialect": "mysql",
-    "port": 24951
+    "username": "postgres.tnnycgvoplyvlgoxlwfi",
+    "password": "yussef@$0595345474",
+    "database": "ecommerce",
+    "host": "aws-1-eu-central-1.pooler.supabase.com",
+    "dialect": "postgres",
+    "port": 5432
   },
 
   "test": {
